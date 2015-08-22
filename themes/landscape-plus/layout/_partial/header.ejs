@@ -1,0 +1,188 @@
+<header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a style="display:none;" href="<%- config.root %>" id="logo"><%= config.title %></a>
+                       <style>
+                        .hexagon {
+                          width: 100px;
+                          height: 58px;
+                          position: relative;
+                        }
+                        .hexagon{
+                          background: #e32d40;
+                        }
+                        .hexagon:before {
+                          content: "";
+                          position: absolute;
+                          top: -29px;
+                          left: 0;
+                          width: 0;
+                          height: 0;
+                          border-left: 50px solid transparent;
+                          border-right: 50px solid transparent;
+                          border-bottom: 29px solid #e32d40;
+                        }
+                        .hexagon:after {
+                          content: "";
+                          position: absolute;
+                          bottom: -29px;
+                          left: 0;
+                          width: 0;
+                          height: 0;
+                          border-left: 50px solid transparent; 
+                          border-right: 50px solid transparent;
+                          border-top: 29px solid #e32d40;
+                        }
+
+                        .t1{
+                          position: absolute;
+                          padding: 29px 0;
+                          left: 51px;
+                          top: -88px;
+                          transform-origin: bottom;
+                          transform: rotateX(-80deg) rotateY(-90deg);
+                          transition: .4s all ease;
+						  -webkit-transform-origin: bottom;
+                          -webkit-transform: rotateX(-80deg) rotateY(-90deg);
+                          -webkit-transition: .4s all ease;
+                        }
+
+                        .t2{
+                          position: absolute;
+                          padding: 29px 0;
+                          left: -51px;
+                          top: -88px;
+                          transform-origin: bottom;
+                          transform: rotateX(80deg) rotateY(-90deg);
+                          transition: .4s .1s all ease;
+						  -webkit-transform-origin: bottom;
+                          -webkit-transform: rotateX(80deg) rotateY(-90deg);
+                          -webkit-transition: .4s .1s all ease;
+                        }
+
+                        .t3{
+                          position:absolute;
+                          padding:29px 0;
+                          left: -102px;top:0px;
+                          -webkit-transform-origin: right;
+                          -webkit-transform: rotateX(0deg) rotateY(90deg);
+                          -webkit-transition:.4s .2s all ease;
+                          transform-origin: right;
+                          transform: rotateX(0deg) rotateY(90deg);
+                          transition:.4s .2s all ease;
+                        }
+                        .t4{
+                          position:absolute;
+                          padding:29px 0;
+                          left: -51px;top:88px;
+                          transform-origin: top;
+                          transform: rotateX(-80deg) rotateY(-90deg);
+                          transition:.4s .3s all ease;
+						  -webkit-transform-origin: top;
+                          -webkit-transform: rotateX(-80deg) rotateY(-90deg);
+                          -webkit-transition:.4s .3s all ease;
+                        }
+
+                        .t5{
+                          position:absolute;
+                          padding:29px 0;
+                          left: 51px;top:88px;
+                          transform-origin: top;
+                          transform: rotateX(80deg) rotateY(-90deg);
+                          transition:.4s .4s all ease;
+                          -webkit-transform-origin: top;
+                          -webkit-transform: rotateX(80deg) rotateY(-90deg);
+                          -webkit-transition:.4s .4s all ease;
+                        }
+                         .t6{
+                          position:absolute;
+                          padding:29px 0;
+                          left: 102px;top:0px;
+                          transform-origin: left;
+                          transform: rotateX(0deg) rotateY(90deg);
+                          transition:.4s .5s all ease;
+						  -webkit-transform-origin: left;
+                          -webkit-transform: rotateX(0deg) rotateY(90deg);
+                          -webkit-transition:.4s .5s all ease;
+                        }
+
+                        .hov:hover .t1,
+                        .hov:hover .t2,
+                        .hov:hover .t3,
+                        .hov:hover .t4,
+                        .hov:hover .t5,
+                        .hov:hover .t6{
+							transform: rotateX(0deg) rotateY(0deg);
+							-webkit-transform: rotateX(0deg) rotateY(0deg);
+                        }
+                        .hexagon{
+                          line-height: 58px;
+                          text-decoration: none;
+                          color: #fff;
+                          font-weight: 300;
+                          text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+                          text-align: center;
+                          box-shadow: 0px 32px 82px #000;
+                        }
+                        .hexagon a{
+                          color:#fff;
+                        }
+                        </style>
+                      <div class="hov" style="position:relative;display: inline-block;top: -35px;height: 116px;width: 100px;">
+                       <div style="position:absolute;padding:29px 0;">
+                        <div class="hexagon" style="font-size: 30px;">vingo</div>
+                       </div>
+                        <div class="t1">
+                          <div class="hexagon">254947696</div>
+                        </div>
+                        <div class="t2">
+                          <div class="hexagon"><a href="http://weibo.com/jwww/">@vingo_</a></div>
+                        </div>   
+                        <div class="t3">
+                          <div class="hexagon"><a href="http://www.jiweiwei.com">众生相</a></div>
+                        </div>
+                        <div class="t4">
+                          <div class="hexagon"><a href="https://github.com/vingojw">github</a></div>
+                        </div>
+                        <div class="t5">
+                          <div class="hexagon">没</div>
+                        </div> 
+                        <div class="t6">
+                          <div class="hexagon">了</div>
+                        </div>
+                        </div>
+      </h1>
+      <% if (theme.subtitle){ %>
+        <h2 id="subtitle-wrap">
+          <a href="<%- config.root %>" id="subtitle"><%= theme.subtitle %></a>
+        </h2>
+      <% } %>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <% for (var i in theme.menu){ %>
+          <a class="main-nav-link" href="<%- theme.menu[i] %>"><%= i %></a>
+        <% } %>
+      </nav>
+      <nav id="sub-nav">
+        <% if (theme.rss){ %>
+          <a id="nav-rss-link" class="nav-icon" href="<%- theme.rss %>" title="RSS Feed"></a>
+        <% } %>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="<%- config.url.replace(/^https?:\/\//, '') %>">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>

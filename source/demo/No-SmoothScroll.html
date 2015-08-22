@@ -1,0 +1,24 @@
+layout: false
+--------
+<!doctype html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>HTML5 canvas demo</title>
+  <style>
+   
+    </style>
+    	 
+  </head>
+  <body>
+    <div id="con" style="width:10px;height:30000px;background:#e9e9e9;" >
+      
+    </div>
+    <script>
+	var arr = [],i=1000;
+	while(i--){arr.push('<div style="padding-left:'+Math.random()*800+'px;">无无无</div>')};
+	document.getElementById('con').innerHTML = arr.join("");
+	
+    </script>
+  </body>
+</html>

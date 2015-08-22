@@ -1,0 +1,47 @@
+# Header
+menu:
+  Home: /
+  Archives: /archives
+<<<<<<< HEAD
+=======
+  GitHub: https://github.com/vingojw
+  Blog: http://www.jiweiwei.com
+>>>>>>> 5bef7ce746369ab4287deebfdd62677570bb0674
+rss: /atom.xml
+
+# Content
+excerpt_link: Read More
+fancybox: true
+
+# Sidebar
+<<<<<<< HEAD
+sidebar: right
+=======
+sidebar: false
+>>>>>>> 5bef7ce746369ab4287deebfdd62677570bb0674
+widgets:
+- category
+- tag
+- tagcloud
+- archive
+- recent_posts
+
+<<<<<<< HEAD
+# Miscellaneous
+google_analytics:
+favicon: /favicon.png
+twitter:
+google_plus:
+fb_admins:
+=======
+#多说账号
+duoshuo_shortname: vingojw 
+
+# Miscellaneous
+google_analytics:  
+favicon:
+twitter: vingojw
+google_plus:  
+fb_admins:  
+>>>>>>> 5bef7ce746369ab4287deebfdd62677570bb0674
+fb_app_id:
