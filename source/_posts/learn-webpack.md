@@ -3,7 +3,7 @@ date: 2015-08-19 22:42:08
 tags: webpack
 ---
 
-
+[Webpack 使用介绍, 以及与gulp的搭配(顺带css-sprite)](https://github.com/kairyou/demo/blob/master/webpack.md?menu=2&cty=2)
 
 [一小时包教会 —— webpack 入门指南](http://www.cnblogs.com/vajoy/p/4650467.html?utm_source=tuicool)
 
@@ -11,9 +11,9 @@ tags: webpack
 
 [webpack学习笔记](http://blog.csdn.net/zhbhun/article/details/47208885)
 
-[入门指迷](http://segmentfault.com/a/1190000002551952) 
+[入门指迷](http://segmentfault.com/a/1190000002551952)
 
-[webpack 怎么用](http://segmentfault.com/a/1190000002552008) 
+[webpack 怎么用](http://segmentfault.com/a/1190000002552008)
 
 [关于配置的注释](http://segmentfault.com/a/1190000002889630)
 
@@ -23,9 +23,9 @@ tags: webpack
 
 视频教程(需要翻墙)
 
-1. [https://www.youtube.com/watch?v=TaWKUpahFZM](https://www.youtube.com/watch?v=TaWKUpahFZM)  
+1. [https://www.youtube.com/watch?v=TaWKUpahFZM](https://www.youtube.com/watch?v=TaWKUpahFZM)
 
-2. [https://www.youtube.com/watch?v=RKqRj3VgR_c ](https://www.youtube.com/watch?v=RKqRj3VgR_c ) 
+2. [https://www.youtube.com/watch?v=RKqRj3VgR_c ](https://www.youtube.com/watch?v=RKqRj3VgR_c )
 
 
 <h2>关于第一个视频的笔记</h2>
