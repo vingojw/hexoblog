@@ -3,6 +3,7 @@ date: 2015-08-19 22:42:08
 tags: webpack
 ---
 
+
 [Webpack 使用介绍, 以及与gulp的搭配(顺带css-sprite)](https://github.com/kairyou/demo/blob/master/webpack.md?menu=2&cty=2)
 
 [一小时包教会 —— webpack 入门指南](http://www.cnblogs.com/vajoy/p/4650467.html?utm_source=tuicool)
@@ -20,6 +21,8 @@ tags: webpack
 [关于代码热替换](https://robots.thoughtbot.com/setting-up-webpack-for-react-and-hot-module-replacement)
 
 [Webpack-dev-server结合后端服务器的热替换配置](http://www.jianshu.com/p/8adf4c2bfa51)
+
+[Webpack 性能优化 （一）（使用别名做重定向）](http://www.ituring.com.cn/article/200534) [备份网址](http://code.oneapm.com/javascript/2015/07/07/webpack_performance_1/)
 
 视频教程(需要翻墙)
 
