@@ -1,0 +1,298 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>HTML5 canvas demo</title>
+	 <style>
+       *{
+         box-sizing:border-box;
+         list-style:none;
+         padding:0;
+         margin:0;
+       }
+
+       ul{
+       	width:400px;
+         position:relative;
+         margin:50px;
+         overflow: hidden;
+         float:left;
+       }
+       #winner:after{
+		  content: 'winner';
+		  color: #fff;
+		  font-size: 100px;
+		  position: absolute;
+		  left: 0;
+		  right: 0;
+		  text-align: center;
+		  top: 27%;
+       }
+       li{
+         width:25%;
+         display:inline-block;
+         float:left;
+         box-shadow: 1px 1px 0px #000 inset;
+         transition: all .15s ease;
+       }
+
+       li.stop{
+       	-webkit-transition-duration:0;
+       }
+
+       li:after{
+         content:'';
+         display:inline-block;
+         padding-bottom:100%;
+         width:100%;
+         vertical-align: middle;
+       }
+       .blue{
+         background:blue;
+       }
+       .red{
+         background:red;
+       }
+       .white{
+         background:white;
+       }
+       .up{-webkit-transform:translateY(-100%);}
+       .down{-webkit-transform:translateY(100%);}
+       .left{-webkit-transform:translateX(-100%);}
+       .right{-webkit-transform:translateX(100%);}
+    </style>
+    <script src="http://libs.baidu.com/jquery/1.10.0/jquery.js"></script>
+
+  </head>
+  <body>
+  看到github的例子，想模仿一下:
+  <a target="_blank" href="https://github.com/casatwy/algorithmDemo">https://github.com/casatwy/algorithmDemo</a>
+<p>鼠标点击：<span id="vv"></span></p>
+<p>键盘   ：<span id="vvv"></span></p>
+<p>自动   ：<button id="vvvv">gogogo</button></p>
+    <ul id="vin">
+		<li class="white"></li>
+		<li class="red"></li>
+		<li class="blue"></li>
+		<li class="blue"></li>
+		<li class="red"></li>
+		<li class="red"></li>
+		<li class="blue"></li>
+		<li class="blue"></li>
+		<li class="red"></li>
+		<li class="red"></li>
+		<li class="blue"></li>
+		<li class="blue"></li>
+		<li class="red"></li>
+		<li class="red"></li>
+		<li class="blue"></li>
+		<li class="blue"></li>
+    </ul>
+	<ul id="winner">
+		<li class="white"></li>
+		<li class="blue"></li>
+		<li class="red"></li>
+		<li class="blue"></li>
+
+		<li class="blue"></li>
+		<li class="red"></li>
+		<li class="blue"></li>
+		<li class="red"></li>
+
+		<li class="red"></li>
+		<li class="blue"></li>
+		<li class="red"></li>
+		<li class="blue"></li>
+
+		<li class="blue"></li>
+		<li class="red"></li>
+		<li class="blue"></li>
+		<li class="red"></li>
+    </ul>
+    <script>
+var road = 'rrdllurrrdllurddldrurdlulldruulu';
+
+$('#vv').html(
+		road.replace(/./g,function(a,b){
+			return {l:'左',r:'右',u:'上',d:'下'}[a]+ ( (b+1)%4==0? '&nbsp;&nbsp;':'' );
+		})
+	);
+$('#vvv').html(
+		road.replace(/./g,function(a,b){
+			return {l:'右',r:'左',u:'下',d:'上'}[a]+ ( (b+1)%4==0? '&nbsp;&nbsp;':'' );
+		})
+	);
+
+$('#vvvv').on('click',function(){
+	road.split('').forEach(function(a,b){
+  		setTimeout(function(){
+			var white = lis.filter('.white');
+			wIndex = white.index();
+  			window['move'+{l:'r',r:'l',u:'d',d:'u'}[a]](wIndex);
+  		},300*b);
+	})
+});
+
+//去除inline-block 中间空白
+$('#vin').html($('ul').html().replace(/[\r\n]/g,''));
+
+var runing = false;
+var lis = $('#vin li');
+lis.on('click',function(e){
+	run($(e.target));
+});
+
+function run(target){
+
+	if(runing || $(target).hasClass('white')){
+		console.log(runing);
+		return;
+	}
+	runing = true;
+	//找出相邻两个，看他们是否能交换
+	var white =  $('#vin .white');
+	//取出  白色的index
+	var windex = white.index();
+	//取出点击的 index
+	var tindex = $(target).index();
+
+	if(windex == tindex + 1){
+		if( (tindex+1)%4==0 ){
+			console.log('边缘地带');
+			runing = false;
+			return;
+		}
+		console.log('left');
+		white.addClass('left');
+		$(target).addClass('right');
+		changeCls(white,target);
+	}
+
+	if(windex == tindex - 1){
+		if( (windex+1)%4==0 ){
+			console.log('边缘地带');
+			runing = false;
+			return;
+		}
+		console.log('right');
+		white.addClass('right');
+		$(target).addClass('left');
+		changeCls(white,target);
+	}
+
+	if(windex == tindex + 4){
+		console.log('up');
+		white.addClass('up');
+		$(target).addClass('down');
+		changeCls(white,target);
+	}
+
+	if(windex == tindex - 4){
+		console.log('down');
+		white.addClass('down');
+		$(target).addClass('up');
+		changeCls(white,target);
+	}
+
+	//点太快 runing 一直为true
+	setTimeout(function(){
+		runing = false;
+	},20);
+}
+
+var reg = /up|down|left|right/g;
+function changeCls(w,t){
+	w.one('webkitTransitionEnd',function(){
+
+		var wCls = $(w).attr('class').replace(reg,"");
+		var tCls = $(t).attr('class').replace(reg,"");
+
+		var tStyle = $(t)[0].style;
+		var wStyle = $(w)[0].style;
+
+		tStyle.webkitTransitionDuration = '0s';
+		wStyle.webkitTransitionDuration = '0s';
+
+		$(w)[0].className = tCls;
+		$(t)[0].className = wCls;
+
+		setTimeout(function(){
+			tStyle.webkitTransitionDuration = '0.15s';
+			wStyle.webkitTransitionDuration = '0.15s';
+		 	runing = false;
+		 	check();
+		},0);
+	});
+
+}
+
+function check(){
+	//白色不是第一个
+	if(!$('#vin li:eq(0)').hasClass('white')){
+		return;
+	}
+	var vinCls = [];
+	var winnerCls = [];
+	$('#winner li').each(function(){
+		winnerCls.push(this.className);
+	});
+
+	lis.each(function(){
+		vinCls.push(this.className);
+	});
+	//"whiteblueredblueblueredblueredredblueredblueblueredbluered"
+	if(vinCls.join('').replace(/\s/g,'')==winnerCls.join('').replace(/\s/g,'')){
+		alert('winner');
+	}
+}
+
+$(document).on('keydown',function(e){
+	moveKeydown(e);
+});
+
+function moveKeydown(e){
+	var white = lis.filter('.white');
+	wIndex = white.index();
+	switch(e.keyCode){
+		case 37:
+			movel(wIndex);
+		break;
+		case 38:
+			moveu(wIndex);
+		break;
+		case 39:
+			mover(wIndex);
+		break;
+		case 40:
+			moved(wIndex);
+		break;
+	}
+}
+
+function movel(wIndex){
+	run(lis.eq(wIndex+1));
+}
+
+function moveu(wIndex){
+	if(wIndex+4>lis.length){
+		console.log('过界。。。');
+		return;
+	}
+	run(lis.eq(wIndex+4));
+}
+
+function mover(wIndex){
+	run(lis.eq(wIndex-1));
+}
+
+function moved(wIndex){
+	if(wIndex-4<0){
+		console.log('过界。。。');
+		return;
+	}
+	run(lis.eq(wIndex-4));
+}
+
+    </script>
+  </body>
+</html>

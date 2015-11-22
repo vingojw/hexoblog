@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+<head>
+<title>Cross-Browser QRCode generator for Javascript</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="qrcode.js"></script>
+</head>
+<body>
+<style>
+#qrcodeText input{
+	width: 523px;
+	height: 22px;
+	font: 16px/22px arial;
+	margin: 5px 0 0 7px;
+	padding: 0;
+	background: #fff;
+	border: 0;
+	outline: 0;
+	-webkit-appearance: none;
+}
+#qrcodeText span{
+	width: 536px;
+	height: 30px;
+	display: inline-block;
+	margin-right: 5px;
+	background-position: 0 -96px;
+	border: 1px solid #b6b6b6;
+	border-color: #7b7b7b #b6b6b6 #b6b6b6 #7b7b7b;
+	vertical-align: top;
+	margin-bottom:10px;
+}
+ 
+</style>
+<div id="qrcodeText">
+	<span>
+	<input id="text" type="text" value="http://vingojw.github.com" style="width:97%" /><br />
+	</span>
+</div>
+大小：<input style="width:40px;border:1px solid #b6b6b6" id="size" value="200"/>
+图片信息：<input id="imgBase64" style="color:#b6b6b6;width:361px;border:1px solid #b6b6b6" onclick="select();"/>
+<div id="qrcode" style="margin-top:15px;"></div>
+ 
+<script type="text/javascript">
+
+var size = document.getElementById("size").value;
+var qrcode = new QRCode(document.getElementById("qrcode"),{
+	width : size,
+	height : size
+});
+
+function makeCode () {		
+	var elText = document.getElementById("text");
+	
+	if (!elText.value) {
+		//alert("Input a text");
+		elText.focus();
+		return;
+	}
+	if(window.location.hash.replace('#')){
+		elText.value = window.location.hash.slice(1);
+	}
+	qrcode.makeCode(elText.value);
+}
+
+makeCode();
+$("#text").
+	on("blur", function () {
+		window.location.hash = "";
+		makeCode();
+		setTimeout(showBase64,15);
+		
+	}).
+	on("keydown", function (e) {
+		if (e.keyCode == 13) {
+			makeCode();
+			
+		}
+	});
+$('#size').
+	on('blur',function(){
+		makeCode();
+		setTimeout(showBase64,15);
+	})
+	
+function setOption(size){
+	document.getElementById("qrcode").innerHTML="";
+	qrcode = new QRCode(document.getElementById("qrcode"), {
+		width : size,
+		height : size
+	});
+}
+
+document.getElementById('size').onkeyup = function(e){
+	setOption(this.value);
+}
+
+function showBase64(){
+	var img = document.getElementById('qrcode').getElementsByTagName('IMG')[0];
+	document.getElementById('imgBase64').value=img.src;
+}
+
+setTimeout(showBase64,15);
+
+</script>
+</body>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>HTML5 使用postMessage在不同網頁之間傳送圖片(接收頁面)</title>
+        <style>
+        </style>
+        <script>
+            window.URL = window.URL || window.webkitURL;
+            
+            var myMsg = function(e) {
+                alert("接收到的資料：" + e.data);
+                alert("資料來源網域：" + e.origin);
+                if (e.origin != "http://www.jiweiwei.com") {
+                    alert("不明來源,不處理");
+                    return; //不明來源,不處理
+                }
+
+                var img_url = window.URL.createObjectURL(new Blob([e.data]));
+                document.getElementById('myimg').src = img_url;
+            };
+            window.addEventListener("message", myMsg, false);//監聽message事件
+        </script>
+    </head>
+    <body>
+        HTML5 使用postMessage在不同網頁之間傳送圖片(接收頁面)
+        <img id="myimg" width="400"/>
+    </body>
+</html>

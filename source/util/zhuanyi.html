@@ -1,0 +1,69 @@
+﻿<!doctype html>
+<html ng-app="Html2txt">
+  <head>
+    <meta charset=utf-8>
+    <title>HTML5 canvas demo</title>
+	 
+    	<script src="http://cdn.bootcss.com/angular.js/1.3.0-beta.8/angular.js"></script>
+		<style>
+		html,body{
+			height: 98.7%
+		}
+		textarea{width:49.4%; height: 47%;
+		border:none;
+		box-shadow: 0 1px 1px rgba(102,102,102,.47);
+        border-top: 1px solid #EAEAEA;
+		}
+		</style>
+  </head>
+  <body ng-controller = "Html2txtController">
+    <textarea ng-model="html"></textarea>  
+	<textarea ng-model="txt"></textarea>  
+	<textarea ng-model="html1"></textarea>  
+	<textarea ng-model="txt1"></textarea>  
+	<script>
+		var Html2txt = angular.module('Html2txt',[]);
+		Html2txt.controller('Html2txtController',['$scope',function($scope){
+		  $scope.html = '这里写html<html>';
+		  $scope.html1 = '这里写html&lt;html&gt;';
+			$scope.$watch(function(){
+				var s = $scope.html.replace(/'/g,"\\'").split("\n");
+				
+				//$scope.txt = "['" + s.join("',\n'") + "'].join('')" ;
+		        $scope.txt = encodeHTML($scope.html);
+				$scope.txt1 = decodetxt($scope.html1);
+				
+				function encodeHTML(text){
+					return String(text).replace(/["<>& ]/g, function(all){
+						return "&" + {
+							'"': 'quot',
+							'<': 'lt',
+							'>': 'gt',
+							'&': 'amp',
+							' ': 'nbsp'
+						}[all] + ";";
+					});
+				}
+				function decodetxt(text){
+					return String(text).replace(/&lt;|&gt;|&amp;|&nbsp;|&quot;/g,function(a){
+						return {
+							"&lt;":"<",
+							"&gt;":">",
+							"&quot;":"\"",
+							"&nbsp;":" ",
+							"&amp;":"&"
+							}[a];
+					});
+				}
+				
+				
+				
+				
+			});
+		}]);
+	
+	</script>
+  
+  
+  </body>
+</html>

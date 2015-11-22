@@ -4,7 +4,8 @@ menu:
   Archives: /archives
   GitHub: https://github.com/vingojw
   Blog: http://www.jiweiwei.com
-rss: /atom.xml
+  util: /util
+  ♬: /2014/10/11/find/
 
 # Content
 excerpt_link: Read More

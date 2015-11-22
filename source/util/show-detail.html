@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
+
+    <title>HTML5 canvas demo</title>
+    <style>
+
+      .has-fixed > *{
+        opacity: 0;
+      }
+      .has-fixed .fixed{
+        opacity: 1;
+      }
+
+.detail{
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    border: 0px solid red;
+    display: none;
+}
+
+
+
+    *{
+      box-sizing:border-box;
+    }
+      body{
+       margin:0;
+      }
+      ul{
+        padding:0;
+        margin:0;
+      }
+      .banner{
+        padding:1px;
+      }
+      .list{
+        list-style:none;
+        height:40px; 
+        border:1px solid green;
+        width:33.3333%;
+      }
+     
+
+
+      .item-box{
+        opacity:0;
+      }
+
+      .item-box.show{
+        opacity:1;
+      }
+
+      .item{
+        height:40px;width:40px; 
+        border:1px solid red;
+        opacity:.0; 
+        transition:all 0.3s ease;  
+        transform:translateY(15px);       
+      }   
+      .show .item{
+        transform:translateY(0px);
+      } 
+      .show .item:nth-child(1){  
+        transition-delay: 0.1s;opacity:1;  
+      }
+      .show .item:nth-child(2){ 
+        transition-delay: 0.2s;opacity:1;    
+      }
+      .show .item:nth-child(3){
+        transition-delay: 0.3s;opacity:1;  
+      }
+      .show .item:nth-child(4){
+        transition-delay: 0.4s;opacity:1;  
+      }
+      .show .item:nth-child(5){
+        transition-delay: 0.5s;opacity:1;  
+      }      
+      .show .item:nth-child(6){
+        transition-delay: 0.6s;opacity:1;  
+      }      
+      .show .item:nth-child(7){
+        transition-delay: 0.7s;opacity:1;  
+      }      
+      .show .item:nth-child(8){
+        transition-delay: 0.8s;opacity:1;  
+      }
+      
+
+    </style>
+  </head>
+  <body>
+
+
+   <ul>
+   <li>
+      <div class="banner">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  </div>
+
+   </li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li> 
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+     <li class="list"><a href="##">- -</a></li>
+   </ul>
+  <div id="deital" class="detail">
+    <div id="item-box" class="item-box">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+  </div>
+    <script>
+      
+      
+      
+      var items = document.getElementsByClassName('list');
+      for(var i =0;i<items.length;i++){
+        items[i].onclick = function(){
+          var _this = this;
+          this.parentNode.classList.add('has-fixed');
+          this.classList.add('fixed');
+          //记一下 scrollTop,方便还原的时候滚动到原来的地方
+          this._scrollTop = this._scrollTop || document.body.scrollTop;
+
+          window.scrollTo(0, this.flyTop ? this._scrollTop : 0 );
+          
+          var gp = getPosition(this);
+          this.style.cssText = "transition:all 0.3s ease;transform:translateX(" + gp.x + "px) translateY("+ gp.y +"px);";
+            this.style.width = '100%';
+          if(this.flyTop){
+            document.getElementById('deital').style.display = 'none';
+          }
+          this.addEventListener("webkitTransitionEnd",endHandler,false);
+        }
+      }
+
+      function endHandler(){
+        
+        this.removeEventListener("webkitTransitionEnd",endHandler,false);
+
+        if(this.flyTop){
+          //还原scrollTop的高度
+          window.scrollTo(0, this._scrollTop);
+          this._scrollTop = null;
+          this.flyTop = false;
+          this.style.width = '';
+          document.getElementById('item-box').classList.remove('show');
+          this.classList.remove('fixed');
+          this.parentNode.classList.remove('has-fixed');
+          
+           
+          
+        } else {
+          this.flyTop = true;
+          //this.style.cssText = "transform:translateX(0px) translateY(0px);position:fixed;top:0;left:0;";
+          document.getElementById('deital').style.display = 'block';
+          setTimeout(function(){
+            document.getElementById('item-box').classList.add('show');
+          },10);
+        }
+
+      }
+
+      //任意元素 算它距离指定部分的距离
+      /**
+       * [计算target元素与outer元素他们相隔的距离]
+       * @param  {DOM} target 
+       * @param  {DOM} outer 
+       * @return {number}    距离(单位)px
+       */
+      function getPosition(target,outer){
+        var tP,oP;
+        tP = target.getBoundingClientRect();
+        outer = outer || document.body;
+        oP = outer.getBoundingClientRect();
+        return {
+          x:oP.left-tP.left,
+          y:oP.top-tP.top
+        }
+      }
+    </script>
+  </body>
+</html>
