@@ -1,0 +1,1200 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta content="yes"name="apple-mobile-web-app-capable"/>
+ 	<meta content="black"name="apple-mobile-web-app-status-bar-style"/>
+	<meta name="format-detection"content="telphone=no"/>
+	<title>云指南旅游服务平台</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="./js/zepto.1.1.3.js"></script>
+	<script src="./js/fastclick.js"></script>
+	<script src="./js/handlebars-v1.3.0.js"></script>
+	<script src="./js/imgSlide.js"></script>
+	<script src="./js/jieyiModal.js"></script>
+	<script type="text/javascript">
+
+	online = {};
+	online.debugger = true;
+	online.log = function(s){
+		online.debugger && console.log(s);
+	}
+	
+	
+ 	window.addEventListener('load', function() {
+		FastClick.attach(document.body);
+	}, false);
+	
+    //给zepto扩展模板方法	
+	$.render = function(tpl,context){
+		var template = Handlebars.compile(tpl);
+		return template(context);
+	}
+ 
+	$(function(){
+		var $main = $('#main'),
+			$header = $('#header'),
+			$back = $('.icon-back'),
+			resourceURL = {},	 //资源配置路径 
+			dataBase = {},       //数据缓存
+			ajaxConfig = {       //ajax请求配置
+				type: 'GET',
+				url: '',
+				dataType: 'json',
+				timeout: 30000,//30秒超时
+				error: function(xhr, type){
+					online.log(type);
+					switch (type){
+						case 'timeout':
+							showModal('请求超时');
+						break;
+						case 'error':
+							showModal('接口数据请求失败 错误码：' + xhr.status);
+						break;
+					}
+				}
+			};
+				/* 测试数据 */
+	ValidateGuest = [{"groupGuestId":487,"guestName":"王婷婷"}];
+	OrderHotel = [{"hotelName":"昆明福保大酒店","beginDate":"2014-08-01T00:00:00","endDate":"2014-08-02T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0871-63555989","position":"","picGather":"20140717104407504.jpg|20140717120302922.jpg|20140717120324310.jpg|20140717120345660.jpg|20140717120428350.jpg|20140717120433822.jpg","contactAddress":"昆明春城路189号","remark":"酒店总建筑经营面积4822平方米，楼高6层。现拥有标间、套房、商务豪华套房共128间。房间设计独特，设施一流，配有线电视、国际国内直拔电话、宽带上网。拥有可容纳20～300人的大、中、小型会议室并配有高质量的视、听及多媒体会议设施，可满足不同档次的培训会、商务会、研讨会和新闻发布会的需求。一楼餐厅可容纳200余人同时就餐。二楼茶室设有乒乓球、台球、棋牌、美容美发等康乐设施，为入住客人提供休闲娱乐、健身健康服务。酒店还增设商务中心、票务中心、旅游服务中心，为各方宾客提供周到便捷的服务。福保大酒店现以崭新的面貌、一流的设施，一流服务欢迎您的到来。 \r\n酒店开业于2005年，2008年局部装修，楼高6层，客房总数122间（套）。- 距离昆明金马碧鸡坊2公里，乘坐出租车约15分钟；\r\n- 距离昆明国贸中心2公里，乘坐出租车约5分钟；"},{"hotelName":"昆明福保大酒店","beginDate":"2014-08-01T00:00:00","endDate":"2014-08-09T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0871-63555989","position":"","picGather":"20140717104407504.jpg|20140717120302922.jpg|20140717120324310.jpg|20140717120345660.jpg|20140717120428350.jpg|20140717120433822.jpg","contactAddress":"昆明春城路189号","remark":"酒店总建筑经营面积4822平方米，楼高6层。现拥有标间、套房、商务豪华套房共128间。房间设计独特，设施一流，配有线电视、国际国内直拔电话、宽带上网。拥有可容纳20～300人的大、中、小型会议室并配有高质量的视、听及多媒体会议设施，可满足不同档次的培训会、商务会、研讨会和新闻发布会的需求。一楼餐厅可容纳200余人同时就餐。二楼茶室设有乒乓球、台球、棋牌、美容美发等康乐设施，为入住客人提供休闲娱乐、健身健康服务。酒店还增设商务中心、票务中心、旅游服务中心，为各方宾客提供周到便捷的服务。福保大酒店现以崭新的面貌、一流的设施，一流服务欢迎您的到来。 \r\n酒店开业于2005年，2008年局部装修，楼高6层，客房总数122间（套）。- 距离昆明金马碧鸡坊2公里，乘坐出租车约15分钟；\r\n- 距离昆明国贸中心2公里，乘坐出租车约5分钟；"},{"hotelName":"大理罗荃半岛假日酒店","beginDate":"2014-08-02T00:00:00","endDate":"2014-08-03T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0872-2502958","position":"","picGather":"","contactAddress":"大理海东镇罗荃半岛（天镜阁）","remark":""},{"hotelName":"大理罗荃半岛假日酒店","beginDate":"2014-08-02T00:00:00","endDate":"2014-08-05T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0872-2502958","position":"","picGather":"","contactAddress":"大理海东镇罗荃半岛（天镜阁）","remark":""},{"hotelName":"大理罗荃半岛假日酒店","beginDate":"2014-08-02T00:00:00","endDate":"2014-08-02T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0872-2502958","position":"","picGather":"","contactAddress":"大理海东镇罗荃半岛（天镜阁）","remark":""},{"hotelName":"昆明唐韵大酒店（新螺蛳湾店）","beginDate":"2014-08-04T00:00:00","endDate":"2014-08-09T00:00:00","hotelStar":"五星","city":"昆明市","contact":"0871-67371088/63988705/ 639887","position":"","picGather":"20140715040921685.jpg|20140715041004289.jpg|20140715041119096.jpg|20140715041230155.jpg|20140715041314419.jpg|20140715041436864.jpg","contactAddress":"官渡区新螺蛳湾国际商贸城二期4号楼（广福路与彩云北路交叉口东南侧） ","remark":"昆明唐韵大酒店（新螺蛳湾店）位于昆明螺蛳湾国际商贸城二期4号楼，总面积20000余平方米，集客房、餐饮、休闲洗浴、会议为一体的豪华商务酒店。步行即到新螺狮湾商贸城、官渡古镇等，附近餐饮、休闲、购物等设施一应俱全，位置十分优越，交通出行便利。 \r\n昆明唐韵大酒店（新螺蛳湾店）拥有客房304间，客房布局合理、装修典雅，内部设施及服务项目完善。数字电视节目、液晶电视、超软床垫、精致的床上用品、独立空调等组成了酒店完善齐全的服务硬件，长话、市话、免费宽带让资讯通达四海，24小时热水供应，并提供机票/火车票代订、旅游咨询等各项贴心服务，是您商旅居停的首选场所。 \r\n酒店开业时间2012年09月，主楼高26层，客房总数304间（套）。"},{"hotelName":"昆明唐韵大酒店（新螺蛳湾店）","beginDate":"2014-08-04T00:00:00","endDate":"2014-08-09T00:00:00","hotelStar":"五星","city":"昆明市","contact":"0871-67371088/63988705/ 639887","position":"","picGather":"20140715040921685.jpg|20140715041004289.jpg|20140715041119096.jpg|20140715041230155.jpg|20140715041314419.jpg|20140715041436864.jpg","contactAddress":"官渡区新螺蛳湾国际商贸城二期4号楼（广福路与彩云北路交叉口东南侧） ","remark":"昆明唐韵大酒店（新螺蛳湾店）位于昆明螺蛳湾国际商贸城二期4号楼，总面积20000余平方米，集客房、餐饮、休闲洗浴、会议为一体的豪华商务酒店。步行即到新螺狮湾商贸城、官渡古镇等，附近餐饮、休闲、购物等设施一应俱全，位置十分优越，交通出行便利。 \r\n昆明唐韵大酒店（新螺蛳湾店）拥有客房304间，客房布局合理、装修典雅，内部设施及服务项目完善。数字电视节目、液晶电视、超软床垫、精致的床上用品、独立空调等组成了酒店完善齐全的服务硬件，长话、市话、免费宽带让资讯通达四海，24小时热水供应，并提供机票/火车票代订、旅游咨询等各项贴心服务，是您商旅居停的首选场所。 \r\n酒店开业时间2012年09月，主楼高26层，客房总数304间（套）。"},{"hotelName":"昆明谷神大酒店(国际商贸城分店)","beginDate":"2014-08-05T00:00:00","endDate":"2014-08-09T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0871-65090788","position":"","picGather":"20140715014052013.jpg|20140715014308805.jpg|20140715014331387.jpg|20140715014339276.jpg|20140715014359979.jpg|20140715014449100.jpg","contactAddress":"官渡区新螺蛳湾国际商贸城二期7号写字楼(商盛路与广福路交叉口)","remark":"昆明谷神大酒店（国际商贸城分店）拥有客房140， 房内基本设施齐全，装修风格简约现代，并且酒店还配有80-100人的大中型会议室和自助早餐厅，尽可能满足您的一切需求，不管是商务出差还是休闲旅游，都是不错的理想下榻之所。\r\n中型会议室：可容纳80-100人的左右，配备投影仪、调音台、有线/无线话筒、音响等会议设施，提供：茶水、纸笔、鲜花、茶歇等会议服务。"},{"hotelName":"昆明谷神大酒店(国际商贸城分店)","beginDate":"2014-08-05T00:00:00","endDate":"2014-08-09T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0871-65090788","position":"","picGather":"20140715014052013.jpg|20140715014308805.jpg|20140715014331387.jpg|20140715014339276.jpg|20140715014359979.jpg|20140715014449100.jpg","contactAddress":"官渡区新螺蛳湾国际商贸城二期7号写字楼(商盛路与广福路交叉口)","remark":"昆明谷神大酒店（国际商贸城分店）拥有客房140， 房内基本设施齐全，装修风格简约现代，并且酒店还配有80-100人的大中型会议室和自助早餐厅，尽可能满足您的一切需求，不管是商务出差还是休闲旅游，都是不错的理想下榻之所。\r\n中型会议室：可容纳80-100人的左右，配备投影仪、调音台、有线/无线话筒、音响等会议设施，提供：茶水、纸笔、鲜花、茶歇等会议服务。"},{"hotelName":"昆明福保大酒店","beginDate":"2014-08-07T00:00:00","endDate":"2014-08-09T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0871-63555989","position":"","picGather":"20140717104407504.jpg|20140717120302922.jpg|20140717120324310.jpg|20140717120345660.jpg|20140717120428350.jpg|20140717120433822.jpg","contactAddress":"昆明春城路189号","remark":"酒店总建筑经营面积4822平方米，楼高6层。现拥有标间、套房、商务豪华套房共128间。房间设计独特，设施一流，配有线电视、国际国内直拔电话、宽带上网。拥有可容纳20～300人的大、中、小型会议室并配有高质量的视、听及多媒体会议设施，可满足不同档次的培训会、商务会、研讨会和新闻发布会的需求。一楼餐厅可容纳200余人同时就餐。二楼茶室设有乒乓球、台球、棋牌、美容美发等康乐设施，为入住客人提供休闲娱乐、健身健康服务。酒店还增设商务中心、票务中心、旅游服务中心，为各方宾客提供周到便捷的服务。福保大酒店现以崭新的面貌、一流的设施，一流服务欢迎您的到来。 \r\n酒店开业于2005年，2008年局部装修，楼高6层，客房总数122间（套）。- 距离昆明金马碧鸡坊2公里，乘坐出租车约15分钟；\r\n- 距离昆明国贸中心2公里，乘坐出租车约5分钟；"},{"hotelName":"昆明福保大酒店","beginDate":"2014-08-07T00:00:00","endDate":"2014-08-09T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0871-63555989","position":"","picGather":"20140717104407504.jpg|20140717120302922.jpg|20140717120324310.jpg|20140717120345660.jpg|20140717120428350.jpg|20140717120433822.jpg","contactAddress":"昆明春城路189号","remark":"酒店总建筑经营面积4822平方米，楼高6层。现拥有标间、套房、商务豪华套房共128间。房间设计独特，设施一流，配有线电视、国际国内直拔电话、宽带上网。拥有可容纳20～300人的大、中、小型会议室并配有高质量的视、听及多媒体会议设施，可满足不同档次的培训会、商务会、研讨会和新闻发布会的需求。一楼餐厅可容纳200余人同时就餐。二楼茶室设有乒乓球、台球、棋牌、美容美发等康乐设施，为入住客人提供休闲娱乐、健身健康服务。酒店还增设商务中心、票务中心、旅游服务中心，为各方宾客提供周到便捷的服务。福保大酒店现以崭新的面貌、一流的设施，一流服务欢迎您的到来。 \r\n酒店开业于2005年，2008年局部装修，楼高6层，客房总数122间（套）。- 距离昆明金马碧鸡坊2公里，乘坐出租车约15分钟；\r\n- 距离昆明国贸中心2公里，乘坐出租车约5分钟；"},{"hotelName":"昆明福保大酒店","beginDate":"2014-08-08T00:00:00","endDate":"2014-08-09T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0871-63555989","position":"","picGather":"20140717104407504.jpg|20140717120302922.jpg|20140717120324310.jpg|20140717120345660.jpg|20140717120428350.jpg|20140717120433822.jpg","contactAddress":"昆明春城路189号","remark":"酒店总建筑经营面积4822平方米，楼高6层。现拥有标间、套房、商务豪华套房共128间。房间设计独特，设施一流，配有线电视、国际国内直拔电话、宽带上网。拥有可容纳20～300人的大、中、小型会议室并配有高质量的视、听及多媒体会议设施，可满足不同档次的培训会、商务会、研讨会和新闻发布会的需求。一楼餐厅可容纳200余人同时就餐。二楼茶室设有乒乓球、台球、棋牌、美容美发等康乐设施，为入住客人提供休闲娱乐、健身健康服务。酒店还增设商务中心、票务中心、旅游服务中心，为各方宾客提供周到便捷的服务。福保大酒店现以崭新的面貌、一流的设施，一流服务欢迎您的到来。 \r\n酒店开业于2005年，2008年局部装修，楼高6层，客房总数122间（套）。- 距离昆明金马碧鸡坊2公里，乘坐出租车约15分钟；\r\n- 距离昆明国贸中心2公里，乘坐出租车约5分钟；"},{"hotelName":"昆明福保大酒店","beginDate":"2014-08-01T00:00:00","endDate":"2014-08-09T00:00:00","hotelStar":"四星","city":"昆明市","contact":"0871-63555989","position":"","picGather":"20140717104407504.jpg|20140717120302922.jpg|20140717120324310.jpg|20140717120345660.jpg|20140717120428350.jpg|20140717120433822.jpg","contactAddress":"昆明春城路189号","remark":"酒店总建筑经营面积4822平方米，楼高6层。现拥有标间、套房、商务豪华套房共128间。房间设计独特，设施一流，配有线电视、国际国内直拔电话、宽带上网。拥有可容纳20～300人的大、中、小型会议室并配有高质量的视、听及多媒体会议设施，可满足不同档次的培训会、商务会、研讨会和新闻发布会的需求。一楼餐厅可容纳200余人同时就餐。二楼茶室设有乒乓球、台球、棋牌、美容美发等康乐设施，为入住客人提供休闲娱乐、健身健康服务。酒店还增设商务中心、票务中心、旅游服务中心，为各方宾客提供周到便捷的服务。福保大酒店现以崭新的面貌、一流的设施，一流服务欢迎您的到来。 \r\n酒店开业于2005年，2008年局部装修，楼高6层，客房总数122间（套）。- 距离昆明金马碧鸡坊2公里，乘坐出租车约15分钟；\r\n- 距离昆明国贸中心2公里，乘坐出租车约5分钟；"}];
+	OrderMeal = [{"mealName":"石林阿黑饭店","typeMode":"标餐","mealType":"中餐","beginDate":"2014-08-01T00:00:00","city":"","contact":"","position":"20140814043650861.jpg","picGather":"20140814043650876.jpg","remark":""},{"mealName":"石林阿黑饭店","typeMode":"标餐","mealType":"中餐","beginDate":"2014-08-02T00:00:00","city":"","contact":"","position":"20140814043650861.jpg","picGather":"20140814043650876.jpg|20140814043650876.jpg","remark":""},{"mealName":"石林阿黑饭店","typeMode":"标餐","mealType":"中餐","beginDate":"2014-08-04T00:00:00","city":"","contact":"","position":"20140814043650861.jpg","picGather":"20140814043650876.jpg","remark":""},{"mealName":"石林阿黑饭店","typeMode":"标餐","mealType":"晚餐","beginDate":"2014-08-04T00:00:00","city":"","contact":"","position":"20140814043650861.jpg","picGather":"20140814043650876.jpg","remark":""}];
+	OrderVehicle = [{"carteamName":"省旅七队","driver":"是","mobile":"13759488080","license":"云AL1550","beginDate":"2014-08-01T00:00:00","endDate":"2014-08-09T00:00:00","remark":null,"seats":0},{"carteamName":"省旅七队","driver":"是","mobile":"13759488080","license":"云AL1550","beginDate":"2014-08-02T00:00:00","endDate":"2014-08-10T00:00:00","remark":"老司机","seats":10}];
+	OrderTraffic = [{"trafficName":"瑞丽航空","typeMode":"单程","beginPlace":"福城机场","beginDate":"07-04","beginTime":"16:25","endPlace":"长水机场","endDate":"07-04","endTime":"17:50","ticketNum":"DR6524"},{"trafficName":"瑞丽航空","typeMode":"单程","beginPlace":"福城机场","beginDate":"07-04","beginTime":"16:25","endPlace":"长水机场","endDate":"07-04","endTime":"17:50","ticketNum":"DR6524"}];
+	OrderGuide = [{"beginDate":"2014-08-01T00:00:00","endDate":"2014-08-09T00:00:00","guideName":"马云","guideSex":1,"guideMobile":"13888752800","guideEscort":"D-5301-004127","guidePhoto":"20140709020831800.jpg","guideProfile":"带团经验丰富 ，善于处理各种行程内外的突发状况 讲解幽默风趣能够将自身为少数民族的优势及民歌融入到讲解当中并常年在公司担任新导游培训工作"},{"beginDate":"2014-08-01T00:00:00","endDate":"2014-08-09T00:00:00","guideName":"马云","guideSex":1,"guideMobile":"13888752800","guideEscort":"D-5301-004127","guidePhoto":"20140709020831800.jpg","guideProfile":"带团经验丰富 ，善于处理各种行程内外的突发状况 讲解幽默风趣能够将自身为少数民族的优势及民歌融入到讲解当中并常年在公司担任新导游培训工作"}];
+	OrderLine = [{"lineDate":"2014-08-01T00:00:00","traffic":"飞机","lineContent":"接机，入住酒店 ","breakFast":"×","lunch":"×","supper":"×","hotel":"昆明","dayDetail":"07：30起床|08：00早餐|17：30晚餐"},{"lineDate":"2014-08-02T00:00:00","traffic":"汽车","lineContent":"早餐后，乘车赴石林，游览【石林】（约120分钟）。之后乘车前往大理，游览“【大理古城、洋人街】（约60分钟）。晚餐后入住酒店 ","breakFast":"√","lunch":"√","supper":"√","hotel":"丽江","dayDetail":"07：30起床|08：00早餐|17：30晚餐"},{"lineDate":"2014-08-03T00:00:00","traffic":"汽车","lineContent":"早餐后，乘车赴丽江游览【玉龙雪山风景区】，乘坐【云杉坪索道】，游览【白水河】【蓝月谷电瓶车自理60元/人】，【玉水寨】。参观螺旋藻配送中心（约40分钟）。最后前往【丽江古城、四方街】，晚餐可随喜好自费品尝当地特色大小吃。 ","breakFast":"√","lunch":"√","supper":"√","hotel":"丽江","dayDetail":"07：30起床|08：00早餐|17：30晚餐"},{"lineDate":"2014-08-04T00:00:00","traffic":"汽车","lineContent":"早餐后，汽车返回大理观看白族特色民居、品尝欣赏【三道茶歌舞表演】，（约120分钟）。游览【双廊古镇】途中欣赏【岚霭普陀】（游览时间约20分钟），至楚雄享用云南特色菌火锅，餐后入住酒店。 ","breakFast":"√","lunch":"√","supper":"√","hotel":"楚雄","dayDetail":"07：30起床|08：00早餐|17：30晚餐"},{"lineDate":"2014-08-05T00:00:00","traffic":"汽车","lineContent":"乘车赴世博园游览4A级景区99世界园艺博览会会址——【世博园】（约120分钟）。游览长800米的花园大道，世博大温室，参观园林，漫步茶园。然后在2010上海世博会茶叶生产商的龙润，品一杯云南地道的普洱茶，生津解乏，深度体验云南的茶文化。这里有经过云南省旅游局评定为4A级的云南最大的翡翠展览馆、世博玉文化博览馆，有专营云南特产黄龙玉的国家宝藏馆。之后游览【金殿】（约120分钟）。后乘车前往【云南茶文化博物馆】，参观云南普洱茶茶艺、茶文化知识和互动体验。晚餐后入住酒店。","breakFast":"√","lunch":"√","supper":"√","hotel":"昆明","dayDetail":""},{"lineDate":"2014-08-06T00:00:00","traffic":"飞机","lineContent":"早餐后，根据航班时间游览鲜花市场后乘机返温馨的家","breakFast":"√","lunch":"×","supper":"×","hotel":"","dayDetail":""}];
+	ResourceUrl = [{"App":"218.244.133.87/FXLY","GuidePhoto":"/UserData/GuidePhoto/","PicGather":"/UserData/PicGather/","Position":"/UserData/Position/"}];
+    OrderShuttle = [{"actionType":"接机","scheduleDate":"2014-08-01T20:00:00","offTraffic":"","backTraffic":"","ticketNum":"MU5476  ","hotel":"绿洲"},{"actionType":"送机","scheduleDate":"2014-08-06T22:40:00","offTraffic":"","backTraffic":"","ticketNum":"MU5592 ","hotel":"世纪金源"}];
+	MyTravel = [{"TravelName":"旅行社名字", "TravelUser":"联系", "TravelBrief":"旅行社介绍"}];
+		//如果之前登陆过那么还原到input里面	
+		loginData();	
+		
+		//登陆
+		$('#loginIn').on('tap',function(e){
+			var name  = $.trim($("#name").val());
+			var idCard  = $.trim($("#cardNum").val());
+			var url = "./ValidateGuest";
+			if(name=='') { showModal('姓名不能为空'); return };
+			if(idCard=='') { showModal('身份证后四位不能为空');return};
+			var loginUrl = './ValidateGuest?guestName='+name+'&idCard='+idCard+'&groupGuestId=0';
+		/*	
+			var ajaxOptions = $.extend(ajaxConfig,{
+				url:loginUrl,
+				success: function(response){
+				
+				*/
+				   var response = ValidateGuest;
+				
+				    online.log(loginUrl);
+					if(response.length==0){showModal('登陆失败，请核实信息是否正确');return;}
+					
+					var data = response;
+					online.log(data);
+					$("#login").append('<input type="hidden" id="groupGuestId" value="' + data[0].groupGuestId + '"/>');
+					$("#login").append('<input type="hidden" id="GuestName" value="' + data[0].guestName + '"/>');
+					$('#login').fadeOut();
+                    //保存登陆信息
+					saveLogin();
+					//登陆成功后的资源路径配置
+					//$.get('./ResourceUrl', function(response){
+						//var data = $.parseJSON(response);
+					response = ResourceUrl;
+					data = response;
+						data = data[0];
+						resourceURL = {
+							guidePhoto:'http://'+data.App + data.GuidePhoto,
+							picGather:'http://'+data.App + data.PicGather,
+							position:'http://'+data.App + data.Position
+						};
+						online.log(resourceURL);
+					//});
+					
+					
+				/*	
+					
+				}
+			});
+			
+			$.ajax(ajaxOptions);
+	 */
+		});
+
+		function showModal(str){
+			var opts = {
+				title:'提示',
+				contentText:str
+			}
+			$.jieyiModal(opts);
+		}
+
+		//切换动画
+		function pageSlideOver(){
+			$('.page-out').live('transitionend', function(){
+			  $(this).removeClass('page-out');
+			});
+			$('.page-in').live('transitionend', function(){
+			  $(this).removeClass('page-in');
+			});
+		}
+
+		//菜单点击跳转
+		$main.on('tap', '#main-module a', function(e){
+		var $pageTo = $('.'+$(this).data("page")),
+			name = $(this).data("page").substring(5),
+			page = $(this).data("page"),
+			url = $(this).data('url');
+		 
+			//出发时间		
+			if(page == "page-a"){
+					online.log('出发时间');
+				    //因为出发时间和我的行程用的是一个接口，所以这里不能像上面那样判断是否已经加载，会造成，这里加载后，我的行程不加载的问题
+					//所以每次要重置一下里面的内容
+					var tempTpl = '尊敬的 <span id="memberName"></span> 您好:'+
+							 '<div class="scroll-bar"><i class="prev" style="display:none;" >&lt;</i><span class="date"> </span><i class="next" style="display:none;" >&gt;</i></div>'+
+								'<div class="departSliderBox">'+
+								'	<div class="departSliderContent clearfix">'+
+									'</div>'+
+								'</div>';
+					$pageTo.find('.depart').html(tempTpl);
+					
+					/*var ajaxOptions = $.extend(ajaxConfig,{
+						url:getUrl(url),
+						success: function(response){
+						*/
+						
+							var data = OrderLine;
+							//var data = response;
+							online.log(data);
+							var renderData = [];
+							$('#memberName').html($('#GuestName').val());//尊敬的 *** 您好
+							/*数据修正*/
+							var currentDate = new Date().Format('MM-dd');//当前日期
+							for(var i = 0, len = data.length; i < len; i++){
+							    var lineDate = dateFormat(data[i].lineDate,'MM-dd');
+								var renderHtml='';
+									if(data[i].dayDetail){
+										data[i].dayInfo = data[i].dayDetail.split('|');
+										data[i].showDate = dateFormat(data[i].lineDate,'MM 月 dd 日');
+										renderHtml = $.render($("#"+page+"-tpl").html(),data[i]);
+										$pageTo.find('.departSliderContent').append(renderHtml);
+										renderData.push(data[i]);
+									}
+							}	
+							
+							var prev = $pageTo.find('.prev');
+							var next = $pageTo.find('.next');
+							//供渲染的数据少于1个隐藏切换按钮
+							if(renderData.length<=1){
+								data[0] && data[0].showDate && ( $('.page-a').find('.date').html(data[0].showDate) );
+								prev.hide();next.hide();
+								//设置footer是否固定底部
+								setPageFooter(page);
+								return;
+							}
+							
+							//设置样式
+							new ruiliSlider($pageTo,'departSliderBox','departItem','departSliderContent',renderData,'lineDate');		
+							//设置footer是否固定底部
+							setPageFooter(page);
+							
+							
+						/*	
+							
+						}
+					});
+					$.ajax(ajaxOptions);
+				 */
+					
+			}
+			
+			
+			//您的车辆
+			if(page == "page-b"){
+				if(!dataBase[url]){	
+					/*var ajaxOptions = $.extend(ajaxConfig,{
+						url:getUrl(url),
+						success: function(response){
+						*/
+						
+							//var data = response;
+						 (function(){
+						 
+							 var data = OrderVehicle;
+							/*数据修正*/
+							for(var i = 0; i < data.length; i++){
+									var picGatherUrls = [];
+									data[i].index = i;
+									data[i].showDate = dateFormat(data[i].beginDate,'MM 月 dd 日') + ' 至 ' + dateFormat(data[i].endDate,'MM 月 dd 日');
+									//修正图片url地址
+								    if(data[i].picGather){$.each(data[i].picGather.split("|"),function(b,c){picGatherUrls.push(resourceURL.picGather+c) })};
+								    (picGatherUrls.length>0) && (data[i].picGather = picGatherUrls);
+									online.log(data[i].showItem);
+									var renderHtml = $.render($("#"+page+"-tpl").html(),data[i]);
+									$pageTo.find('.carSliderContent').append(renderHtml);
+									//绑定酒店幻灯片
+									(picGatherUrls.length>0) && $("#carPic_"+i).vgoSlider();
+							}
+							
+							/*添加完后绑定事件*/
+							var prev = $pageTo.find('.prev');
+							var next = $pageTo.find('.next');
+							var items = $pageTo.find('.carItem');
+							var currentIndex = 0; //当前页
+							var carSliderBox = $('.carSliderBox');
+							var carSliderContent = $('.carSliderContent');
+							var width = carSliderBox.width();
+							carSliderBox.css({'width':width,'overflow-x':'hidden'});
+							carSliderContent.css({'width':width*items.length});
+							items.css({'width':width,'float':'left'});
+							//只有一个那么隐藏下一页 上一页
+							if(items.length ==1){
+								$('.page-b').find('.date').html(data[0].showDate);
+								prev.hide();next.hide();
+								//设置footer是否固定底部
+								setPageFooter(page);
+								return;
+							}  
+							//左滑
+							carSliderBox.swipeLeft(function(){
+								if(next.css('display') != 'none'){
+									show(++currentIndex);
+								}
+							});
+							//右滑
+							carSliderBox.swipeRight(function(){
+								if(prev.css('display') != 'none'){
+									show(--currentIndex);
+								}
+							})
+							//上一页
+							prev.tap(function(){
+								show(--currentIndex);
+							});
+							//下一页
+							next.tap(function(){
+								show(++currentIndex);
+							});
+							
+							//展示
+							function show(index){
+								if( index == 0 ){
+									prev.hide();next.show(); //上一页隐藏   下一页显示
+								} else if( index == items.length - 1 ){
+									prev.show();next.hide(); //上一页显示   下一页隐藏
+								} else {
+									prev.show();next.show(); 
+								}
+								$('.page-b').find('.date').html(data[index].showDate);
+								carSliderContent.css('-webkit-transform','translate3d('+(-(index*width))+'px, 0, 0)');
+								online.log(index);
+							}
+							
+							//自动选择当天的车辆安排
+							for(var i = 0; i < data.length; i++){
+								if( new Date().Format('MM-dd') == dateFormat(data[i].endDate,'MM-dd')){
+									currentIndex = i;
+								}
+							}
+								 
+							show(currentIndex);
+							//设置footer是否固定底部
+							setPageFooter(page);
+							dataBase[url] = true;
+							
+						 
+						 
+						 
+						 })()
+
+							
+							/*
+						}
+					});
+					
+					$.ajax(ajaxOptions);
+*/
+				}
+			}
+			
+			
+			//航班时间
+			if(page == "page-c"){
+				if(!dataBase[url]){	
+					/*var ajaxOptions = $.extend(ajaxConfig,{
+						url:getUrl(url),
+						success: function(response){
+							var data = response;
+								*/
+								var data = OrderShuttle;
+							console.log(data);
+								/*数据修正*/
+								/*对酒店图片数据的修正 ， 将图片变成数组，方便模板循环*/ 
+								for(var i = 0; i < data.length; i++){
+									var dObj = new Date(data[i].scheduleDate.replace('T',' ').replace(/-/g,'/'));
+									var day = dObj.Format('MM-dd');
+									var time = dObj.Format('hh:mm');
+									var week = '周'+ '日一二三四五六'.charAt(dObj.getDay());
+									data[i].day = day;
+									data[i].time = time;
+									data[i].week = week;
+								    
+									 
+									var renderHtml = $.render($("#"+page+"-tpl").html(),data[i]);
+									$pageTo.find('.flight').append(renderHtml);
+									//绑定酒店幻灯片
+									$("#hotelPic_"+i).vgoSlider();
+								}
+								//设置footer是否固定底部
+								setPageFooter(page);
+								dataBase[url]=true;
+								/*
+						}
+					});
+					$.ajax(ajaxOptions);*/
+				}
+			}
+			
+			//入住酒店
+			if(page == "page-d"){
+				if(!dataBase[url]){			
+					//入住酒店数据
+					/*var ajaxOptions = $.extend(ajaxConfig,{
+						url:getUrl(url),
+						success: function(response){
+							var data = response;
+							*/
+							var data = OrderHotel;
+							 online.log("酒店数据");
+							 online.log(getUrl(url));
+							 online.log(data);
+						 
+							/*数据修正*/
+							/*对酒店图片数据的修正 ， 将图片变成数组，方便模板循环*/ 
+							if(data.length==0){
+								setPageFooter(page);
+								return;
+							}
+							for(var i = 0; i < data.length; i++){
+								var picGatherUrls = [];
+								//修正图片url地址
+								if(data[i].picGather){$.each(data[i].picGather.split("|"),function(b,c){picGatherUrls.push(resourceURL.picGather+c) })};
+								data[i].picGather = picGatherUrls;
+								data[i].index = i;
+								data[i].showDate = dateFormat(data[i].beginDate,'MM 月 dd 日');
+								data[i].bDate = dateFormat(data[i].beginDate,'MM 月 dd 日');
+								data[i].eDate = dateFormat(data[i].endDate,'MM 月 dd 日');
+								data[i].hotelStar = new Array("一二三四五".indexOf([data[i].hotelStar[0]])+1);
+								data[i].position && (data[i].position = resourceURL.position+data[i].position);
+								var renderHtml = $.render($("#"+page+"-tpl").html(),data[i]);
+								$pageTo.find('.hotelSliderContent').append(renderHtml);
+								//绑定酒店幻灯片
+								$("#hotelPic_"+i).vgoSlider();
+							}
+							dataBase[url]=true;
+							
+							if(data.length ==1){
+								$('.page-d').find('.date').html(data[0].showDate);
+								prev.hide();next.hide();
+								//设置footer是否固定底部
+								setPageFooter(page);
+								return;
+							}  
+							//设置样式
+							ruiliSlider($pageTo,'hotelSliderBox','list','hotelSliderContent',data,'beginDate');		
+
+							//设置footer是否固定底部
+							setPageFooter(page);
+							
+							/*
+						}
+					});
+					$.ajax(ajaxOptions);*/
+				}
+			}
+			
+			//用餐餐厅
+			if(page == "page-e"){
+				if(!dataBase[url]){
+					/*var ajaxOptions = $.extend(ajaxConfig,{
+						url:getUrl(url),
+						success: function(response){
+							var data = response;
+							*/
+							var data = OrderMeal;
+							
+							online.log("用餐餐厅");
+							online.log(data);
+							if(data.length==0){
+								setPageFooter(page);
+								return;
+							}
+							/*数据修正*/
+							/*对餐厅图片数据的修正 ， 将图片变成数组，方便模板循环*/ 
+							for(var i = 0; i < data.length; i++){
+								var picGatherUrls = [];
+								$.each(data[i].picGather.split("|"),function(b,c){picGatherUrls.push(resourceURL.picGather+c) });
+								data[i].picGather = picGatherUrls;
+								data[i].index = i;
+								data[i].showDate = dateFormat(data[i].beginDate,'MM 月 dd 日');
+								data[i].bDate = dateFormat(data[i].beginDate,'MM 月 dd 日');
+								data[i].position && (data[i].position = resourceURL.position+data[i].position);
+								online.log('渲染'+page);
+								var renderHtml = $.render($("#"+page+"-tpl").html(),data[i]);
+								$pageTo.find('.dinnerSliderContent').append(renderHtml);
+								//绑定酒店幻灯片
+								$("#mealPic_"+i).vgoSlider();
+							}
+							dataBase[url]=true;
+							
+							//设置样式
+							 
+							ruiliSlider($pageTo,'dinnerSliderBox','list','dinnerSliderContent',data,'beginDate');		
+
+							//设置footer是否固定底部
+							//setPageFooter(page);
+							
+						/*	
+						}
+					});
+					$.ajax(ajaxOptions);
+					*/
+				}	
+			}
+			
+			//您的导游
+			if(page == "page-f"){
+				if(!dataBase[url]){
+					/*var ajaxOptions = $.extend(ajaxConfig,{
+						url:getUrl(url),
+						success: function(response){
+						*/
+						
+							//var data = response;
+							var data = OrderGuide;
+							online.log(data);
+							
+							var guideSexObj = ['女','男','未知'];
+							if(data.length==0){
+								setPageFooter(page);
+								return;
+							}
+							/*数据修正*/
+							for(var i = 0; i < data.length; i++){
+								data[i].index = i;
+								data[i].guideSex = guideSexObj[data[i].guideSex];
+								data[i].showDate = dateFormat(data[i].beginDate,'MM 月 dd 日') + ' 至 ' + dateFormat(data[i].endDate,'MM 月 dd 日');
+								data[i].beginDate = dateFormat(data[i].beginDate,'MM月dd日');
+								data[i].endDate = dateFormat(data[i].endDate,'MM月dd日');
+								data[i].guidePhoto && (data[i].guidePhoto = resourceURL.guidePhoto + data[i].guidePhoto);
+								
+								var renderHtml = $.render($("#"+page+"-tpl").html(),data[i]);
+								$pageTo.find('.guideSliderContent').append(renderHtml);
+							}
+							var prev = $pageTo.find('.prev');
+							var next = $pageTo.find('.next');
+							var guideSliderBox = $pageTo.find('.guideSliderBox'); //最外层
+							var guideSliderContent = $('.guideSliderContent');  //内容层
+							var width = guideSliderContent.width();             //宽度
+							var items = guideSliderContent.find('.list');       //子元素
+							var currentIndex = 0;
+							guideSliderBox.css({'width':width,'overflow-x':'hidden'});
+							guideSliderContent.css({'width':width*items.length});
+							items.css({'width':width,'float':'left'});
+							//只有一个那么隐藏下一页 上一页
+							if(data.length ==1){
+								$('.page-f').find('.date').html(data[0].showDate);
+								prev.hide();next.hide();
+								//设置footer是否固定底部
+								//setPageFooter(page);
+								return;
+							}  
+							//左滑
+							guideSliderBox.swipeLeft(function(){
+								if(next.css('display') != 'none'){
+									show(++currentIndex);
+								}
+							});
+							//右滑
+							guideSliderBox.swipeRight(function(){
+								if(prev.css('display') != 'none'){
+									show(--currentIndex);
+								}
+							});
+							//上一页
+							prev.tap(function(){
+								show(--currentIndex);
+							});
+							//下一页
+							next.tap(function(){
+								show(++currentIndex);
+							});
+							//展示
+							function show(index){
+								
+									if( index == 0 ){
+										prev.hide();next.show(); //上一页隐藏   下一页显示
+									} else if( index == items.length - 1 ){
+										prev.show();next.hide(); //上一页显示   下一页隐藏
+									} else {
+										prev.show();next.show(); 
+									}
+								
+								$pageTo.find('.date').html(data[index].showDate);
+								guideSliderContent.css('-webkit-transform','translate3d('+(-(index*width))+'px, 0, 0)');
+							}
+							
+							//根据endDate选择当天的导游安排
+							for(var i = 0; i < data.length; i++){
+								if( new Date().Format('MM-dd') == dateFormat(data[i].endDate,'MM-dd')){
+									currentIndex = i;
+									online.log('find');
+								}
+							}
+							 
+							show(currentIndex);
+							//设置footer是否固定底部
+							//setPageFooter(page);
+							dataBase[url]=true;
+							
+							/*
+						}
+					});
+					$.ajax(ajaxOptions);*/
+				}
+			}
+			
+			//您的行程
+			if(page == "page-g"){
+				if(!dataBase[url]){
+					/*var ajaxOptions = $.extend(ajaxConfig,{
+						url:getUrl(url),
+						success: function(response){
+						*/
+							//var data = response;
+							var data = OrderLine;							
+							//online.log(response);
+							if(data.length==0){
+								setPageFooter(page);
+								return;
+							}
+							/*数据修正*/
+							for(var i = 0; i < data.length; i++){
+							
+								var s = new Date(data[i].lineDate.replace('T',' ').replace(/-/g,'/'));
+								var o = {};
+								o.m = s.getMonth()+1; 
+								o.d = s.getDate();
+								o.h = s.getHours()<10 ? '0'+s.getHours():s.getHours();
+								o.t = s.getMinutes()<10?'0'+s.getMinutes():s.getMinutes();
+								data[i].date = o;
+								var dd = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四", "二十五", "二十六", "二十七", "二十八", "二十九", "三十"];
+								data[i].dayIndex = dd[i];
+								data[i].index = i;
+								data[i].showDate = dateFormat(data[i].lineDate,'MM 月 dd 日');
+								data[i].dayDetail = data[i].dayDetail.split('|').join('、');//日明细，以｜分隔，如07：30起床｜08：00早餐,
+								
+								var renderHtml = $.render($("#"+page+"-tpl").html(),data[i]);
+								$pageTo.find('.routeSliderContent').append(renderHtml);
+							}
+							dataBase[url]=true;
+							
+							//设置样式
+							ruiliSlider($pageTo,'routeSliderBox','list','routeSliderContent',data,'lineDate');		
+
+							//设置footer是否固定底部
+							setPageFooter(page);
+							
+							/*
+						}
+					});
+					$.ajax(ajaxOptions);*/
+				}	
+			}
+			
+			//地接社
+			if(page == "page-h"){
+				if(!dataBase[url]){
+					/*var ajaxOptions = $.extend(ajaxConfig,{
+						url:getUrl(url),
+						success: function(response){
+						*/
+							
+							//var data = response;
+							data = MyTravel
+							if(data.length==0){
+								setPageFooter(page);
+								return;
+							}
+							console.log(data);
+							var renderHtml = $.render($("#"+page+"-tpl").html(),data[0]);
+							$pageTo.html(renderHtml);
+							//设置footer是否固定底部
+							setPageFooter(page);
+							dataBase[url]=true;
+						/*}
+					});
+					$.ajax(ajaxOptions);*/
+				}	
+			}
+
+
+			//切换样式
+			$(this).parents('.page').removeClass('page-active').addClass('page-prev page-out');
+			$pageTo.removeClass('page-next').addClass('page-active page-in');
+			pageSlideOver();
+			$back.css({display:"block"}).data({"page":"page-index"});
+			history.pushState({"page": name}, "" , "?page="+name);
+			
+			//设置foot是否浮动
+			function setPageFooter(page){
+				/*
+				当内容高度$('.'+page).find('.wraper').height() - $('.'+page).find('.bottom-ft')
+				大于 page高度 $('.'+page).height()
+				则设置样式 
+				*/
+				var _wraperH = $('.'+page).find('.wraper').height();
+				var _ftH = $('.'+page).find('.bottom-ft').height();
+				var _pageH =  $('.'+page).height();
+				if( (_wraperH - _ftH) < _pageH){
+					$('.'+page).find('.bottom-ft').css({'position':'absolute','left':'0px','bottom':'0px','width':'100%'});
+				}
+			}
+
+		});
+
+		//返回
+		$header.on('tap', '.icon-back', function(){
+			$('.page-active').removeClass('page-active').addClass('page-next page-out');
+			$('.'+$(this).data('page')).removeClass('page-prev').addClass('page-active page-in');
+			pageSlideOver();
+			$back.css({display:"none"});
+			history.go(-1);
+		});
+
+		//获取ajax地址
+		function getUrl(url){
+			var groupGuestId = $('#groupGuestId');
+			if(groupGuestId.length < 1){
+				window.location.reload();
+			}
+			return url+'?groupGuestId='+ groupGuestId.val();
+		}
+
+		//格式化日期
+		//2014-08-09T00:00:00
+		function dateFormat(str,format){
+			try{
+				return new Date(str.replace('T',' ').replace(/-/g,'/')).Format(format || 'yyyy-MM-dd hh:mm:ss');
+			} catch(e) {
+				return '';
+			}
+		}
+		/*日期格式化*/
+		Date.prototype.Format = function (fmt) { //author: meizz
+		  var o = {
+			   "M+": this.getMonth() + 1, //月份
+			   "d+": this.getDate(), //日
+			   "h+": this.getHours(), //小时
+			   "m+": this.getMinutes(), //分
+			   "s+": this.getSeconds(), //秒
+			   "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+			   "S": this.getMilliseconds() //毫秒
+		  };
+		  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+		  for (var k in o)
+		  if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		  return fmt;
+		}
+		
+		/*本地储存*/
+		//如果之前登陆过
+		function loginData(){
+			/*		
+				存： window.localStorage.setItem(key, value);  
+				取： var crFilter = window.localStorage.getItem(key);
+			*/
+			if(window.localStorage){
+				var loginName = window.localStorage.getItem('loginName');
+				var cardNum = window.localStorage.getItem('cardNum');
+				loginName && cardNum && ($('#name').val(loginName),$('#cardNum').val(cardNum));
+			}
+		}
+		
+		//保存登陆状态
+		function saveLogin(){
+			if(window.localStorage){
+				window.localStorage.setItem('loginName', $('#name').val());
+				window.localStorage.setItem('cardNum', $('#cardNum').val());  
+			}
+		}
+		
+		//通用页面切换
+		/*
+			page,               页面calssname
+			boxClassName,       外容器classname
+			itemClassName,      元素calssname
+			contentClassName,   内容classname
+			data,               数据
+			timeKey             需要排序的时间字段，根据此字段排序
+		*/
+		function ruiliSlider(page,boxClassName,itemClassName,contentClassName,data,timeKey){
+			var prev = page.find('.prev');
+			var next = page.find('.next');
+			var items = page.find('.'+itemClassName+'');
+			var currentIndex = 0; //当前页
+			var carSliderBox = $('.'+boxClassName);
+			var carSliderContent = $('.'+contentClassName);
+			var width = carSliderBox.width();
+			carSliderBox.css({'width':width,'overflow-x':'hidden'});
+			carSliderContent.css({'width':width*items.length});
+			items.css({'width':width,'float':'left'});
+			//只有一个那么隐藏下一页 上一页
+			if(items.length ==1){
+				//prev.hide();next.hide(); 
+				page.find('.date').html(data[0].showDate);
+				return;
+			}  
+			//左滑
+			carSliderBox.swipeLeft(function(){
+				if(next.css('display') != 'none'){
+					show(++currentIndex);
+				}
+			});
+			//右滑
+			carSliderBox.swipeRight(function(){
+				if(prev.css('display') != 'none'){
+					show(--currentIndex);
+				}
+			})
+			//上一页
+			prev.tap(function(){
+				show(--currentIndex);
+			});
+			//下一页
+			next.tap(function(){
+				show(++currentIndex);
+			});
+
+			//展示
+			function show(index){
+				if( index == 0 ){
+					prev.hide();next.show(); //上一页隐藏   下一页显示
+				} else if( index == items.length - 1 ){
+					prev.show();next.hide(); //上一页显示   下一页隐藏
+				} else {
+					prev.show();next.show(); 
+				}
+				page.find('.date').html(data[index].showDate);
+				carSliderContent.css('-webkit-transform','translate3d('+(-(index*width))+'px, 0, 0)');
+				online.log(index);
+			}
+
+			//自动选择当天的车辆安排
+			for(var i = 0; i < data.length; i++){
+				if( new Date().Format('MM-dd') == dateFormat(data[i][timeKey],'MM-dd')){
+					currentIndex = i;
+				}
+			}
+			show(currentIndex);
+		}
+
+		
+		
+	});
+
+	</script>
+</head>
+<body>
+	<!--登陆-->
+	<div id="login" style="">
+		<div class="page-control">
+			<div><img src="./img/login_logo.png"/></div>
+			<input placeholder='姓名' id='name' value="王婷婷"/>
+			<input placeholder='身份证后四位' id='cardNum' maxlength="4"  value="1234"/>
+			<button class='btn btn-block btn-primary' id="loginIn">登陆</button>
+		</div>
+	</div>
+	<!--登陆结束-->
+	<header id="header" class="header">
+      <span class="icon-back"></span>
+      <!--h1 class="page-title">旅游查询</h1--><h1 style="height:44px;background-image: url(img/logo.png);background-size: auto 36px;background-repeat: no-repeat;background-position: center;"></h1>
+    </header>
+	<div id="main" class="wrap-page">
+			<section class="page page-index page-active">
+			<!--导航-->
+			<div class="wraper">
+				<div class=""><!--div class="top-hd "><img src="img/logo.png" alt=""></div-->
+					<div id="main-module" class="main-module ">
+					  <div class="row row2">
+						<a href="javascript:void(0);" class="item depart" data-page="page-a" data-url='./OrderLine'>出发时间</a>
+						<a href="javascript:void(0);" class="item car" data-page="page-b" data-url='./OrderVehicle'>您的车辆</a>
+					  </div>
+					  <div class="row row3">
+						<a href="javascript:void(0);" class="item flight-time" data-page="page-c" data-url='./OrderShuttle'>航班时间</a>
+						<a href="javascript:void(0);" class="item hotel" data-page="page-d" data-url='./OrderHotel'>入住酒店</a>
+						<a href="javascript:void(0);" class="item dinner" data-page="page-e" data-url='./OrderMeal'>用餐餐厅</a>
+					  </div>
+					  <div class="row row2">
+						<a href="javascript:void(0);" class="item guide" data-page="page-f" data-url='./OrderGuide'>您的导游</a>
+						<a href="javascript:void(0);" class="item route" data-page="page-g" data-url='./OrderLine'>您的行程</a>
+					  </div>
+					  <div class="row">
+						<a href="javascript:void(0);" class="item service" data-page="page-h" data-url='./MyTravel'>为您服务的云南地接社</a>
+					  </div>
+					</div>
+					<div class="bottom-ft ">
+					  <img src="img/logo-flight.png" alt="">
+					  <div class="rupper">本平台由瑞丽航空提供技术支持</div>
+					</div>
+				</div>
+			</div>
+			<!--导航结束-->
+			</section>	
+			
+			<section class="page page-a page-next">
+				<!--出发时间-->
+				<div class="wraper">
+					<div  class="">
+						<div class="content-box ">
+							<div class="title depart-title"><i class="icon"></i>出发时间</div>
+							
+							<div class="content depart">
+							尊敬的 <span id='memberName'></span> 您好:
+							 <div class="scroll-bar"><i class="prev" >&lt;</i><span class="date">08 月 01 日 </span><i class="next" >&gt;</i></div>
+								<div class="departSliderBox">
+									<div class="departSliderContent clearfix">
+									
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-ft depart-footer ">本平台由瑞丽航空提供技术支持</div>
+					</div>
+				</div>
+			</section>
+			
+			<section class="page page-b page-next">
+				<!--车辆安排-->
+				<div class="wraper">
+					<div  class="">
+						<div class="content-box ">
+							<div class="title car-title"><i class="icon"></i>为您服务的车辆</div>
+							<div class="content car">
+								<div class="scroll-bar"><i class="prev" style="display:none;">&lt;</i><span class="date"> </span><i class="next" style="display:none;">&gt;</i></div>
+								<!--内容--> 
+								<div class="carSliderBox">
+									<div class="carSliderContent clearfix">
+									
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-ft car-footer ">本平台由瑞丽航空提供技术支持</div>
+					</div>
+						
+				</div>
+			</section>
+			
+			<section class="page page-c page-next">
+				<!--航班时间-->
+			<div class="wraper">
+				<div  class="">
+					<div class="content-box ">
+					  <div class="title flight-time-title"><i class="icon"></i>您的航班时间</div>
+					  <div class="content flight-time">
+						  <div class="flight">
+						  <!--内容-->
+						  </div>
+						  <div>
+							<span id='flightRemark' class="highlight">乘机须知：</span><br>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案。
+						  </div>
+					  </div>
+					</div>
+					<div class="bottom-ft flight-time-footer ">本平台由瑞丽航空提供技术支持</div>
+				</div>
+			</div>
+			<!--航班时间结束-->
+			</section>
+			
+			<section class="page page-d page-next">
+				<!--入住酒店-->
+				<div class="wraper">
+					<div  class="">
+						<div class="content-box ">
+							<div class="title hotel-title"><i class="icon"></i>您入住的酒店</div>
+							<div class="content hotel">
+								<div class="scroll-bar"><i class="prev" style="display:none;">&lt;</i><span class="date"> </span><i class="next" style="display:none;">&gt;</i></div>
+								<!--内容--> 
+								<div class="hotelSliderBox">
+									<div class="hotelSliderContent clearfix">
+									
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-ft hotel-footer ">本平台由瑞丽航空提供技术支持</div>
+					</div>
+				</div>
+			</section>
+			
+			<section class="page page-e page-next">
+				<!--用餐餐厅-->
+				<div class="wraper">
+					<div  class="">
+					<div class="content-box ">
+						<div class="title dinner-title"><i class="icon"></i>您行程中的餐厅</div>
+						<div class="content dinner">
+							<div class="scroll-bar"><i class="prev" style="display:none;">&lt;</i><span class="date"> </span><i class="next" style="display:none;">&gt;</i></div>
+							<!--内容--> 
+							<div class="dinnerSliderBox">
+								<div class="dinnerSliderContent clearfix">
+								
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="bottom-ft dinner-footer ">本平台由瑞丽航空提供技术支持</div>
+					</div>
+				</div>
+			</section>
+			
+			<section class="page page-f page-next">
+				<!--服务导游-->
+				<div class="wraper">
+					<div  class=""><div class="content-box ">
+						<div class="title guide-title"><i class="icon"></i>为您服务的导游</div>
+						
+							<div class="content guide  ">
+							<div class="scroll-bar"><i class="prev" style="display:none;">&lt;</i><span class="date"> </span><i class="next"  style="display:none;">&gt;</i></div>
+								 <div class="guideSliderBox">
+									<div class="guideSliderContent clearfix"></div>
+								 <!--内容-->
+								 </div>
+							</div>
+						</div>
+						<div class="bottom-ft guide-footer ">本平台由瑞丽航空提供技术支持</div>
+					</div>
+				</div>
+			</section>
+			
+			<section class="page page-g page-next">
+				<!--您的行程-->
+				<div class="wraper">
+					<div  class=""><div class="content-box ">
+						<div class="title route-title"><i class="icon"></i>您的旅游行程</div>
+							<div class="content route">
+								<div class="scroll-bar"><i class="prev" style="display:none;">&lt;</i><span class="date"> </span><i class="next" style="display:none;">&gt;</i></div>
+								<!--内容--> 
+								<div class="routeSliderBox">
+									<div class="routeSliderContent clearfix">
+									
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-ft route-footer ">本平台由瑞丽航空提供技术支持</div>
+					</div>
+				</div>
+			</section>
+			
+			<section class="page page-h page-next">
+				<!--地接社-->
+			</section>
+	</div>
+    <footer id="footer" class="footer" style="display:none;">footer</footer>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!---------------------------------模板开始------------------------------->
+	<!--出发时间-->
+	<script id="page-a-tpl" type="text/x-tmpl">
+			{{#if dayInfo}}
+			 <ul class="departItem">
+				{{#each dayInfo}}
+					<li>{{this}}</li>
+				{{/each}}
+			 </ul>
+			{{/if}}
+		 
+	</script>
+	
+	<!--您的车辆-->
+	<script id="page-b-tpl" type="text/x-tmpl">
+		<div class="carItem" >
+			<ul class="carinfo-list">
+			    {{#if picGather}}
+				<div id= "carPic_{{index}}" class="scroll-pic">
+				  <ul class="pic-list">
+				
+				  {{#each picGather}}
+				  <li><img src="{{this}}" alt=""></li>
+				  {{/each}}
+				
+				  </ul>
+				  <div class="contro-dot"><span class="current"></span><span></span><span></span></div>
+				</div>
+				  {{/if}}
+				<li><span class="highlight">车队名称:</span>{{carteamName}}</li>
+				<li><span class="highlight">车牌号码:</span>{{license}}</li>
+				<li><span class="highlight">车辆座位数:</span>{{seats}}</li>
+				<li><span class="highlight">司机姓名:</span>{{driver}}</li>
+				<li><span class="highlight">司机电话:</span>{{mobile}}</li>
+				{{#if remark}}
+				<li>
+					<span class="highlight">简要:</span>
+					<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{remark}}</div>
+				</li>
+				{{/if}}
+			</ul>
+		</div>
+	</script>
+	
+	<!--航班时间-->
+	<script id="page-c-tpl" type="text/x-tmpl">
+		<div class="flight-step">
+		  <div class="hd"><span class="highlight">{{actionType}}</span>{{trafficName}} {{ticketNum}}</div>
+		  <div class="bd clearfix">
+			<div class="leave">
+			  <div class="city">{{beginPlace}}</div>
+			  <div class="time">{{time}}</div>
+			  <div class="date">{{day}}&nbsp;{{week}}</div>
+			</div>
+			<div class="between"><i class="icon ico-plane"></i></div>
+			<div class="arrive">
+			  <div class="city">{{endPlace}}</div>
+			  <div class="time">{{endTime}}</div>
+			  <div class="date">{{endDate}}</div>
+			</div>
+		  </div>
+		</div>
+	<!--航班时间结束-->
+	</script>
+	
+	<!--入住酒店-->
+	<script id="page-d-tpl" type="text/x-tmpl">
+		<ul class="list">
+		  <li><span class="highlight">酒店名称:</span>{{hotelName}}</li>
+		  		  <li><span class="highlight">入住日期:</span>{{bDate}}</li>
+				   <li><span class="highlight">离开日期:</span>{{eDate}}</li>
+
+		<div id= "hotelPic_{{index}}" class="scroll-pic mt15 mb15">
+		  <ul class="pic-list">
+		  {{#if picGather}}
+		  {{#each picGather}}
+		  <li><img src="{{this}}" alt=""></li>
+		  {{/each}}
+		  {{/if}}
+		  </ul>
+		  <div class="contro-dot"><span class="current"></span><span></span><span></span></div>
+		</div>
+		  <li><span class="highlight">酒店星级:</span>{{#each hotelStar}} <i class="icon star"></i>{{/each}}  </li>
+		  <li><span class="highlight">酒店地址:</span>{{contactAddress}}</li>
+		  <li><span class="highlight">联系方式:</span>{{contact}}</li>
+		  <li><span class="highlight">酒店概述:</span><span>{{remark}}</span></li>
+		  </ul>
+		{{#if position }}<div><img src="{{position}}" alt=""></div>{{/if}}
+
+	<!--入住酒店结束-->
+	</script>
+	
+	<!--就餐餐厅-->	
+	<script id="page-e-tpl" type="text/x-tmpl">
+		<ul class="list">
+			<li><span class="highlight">餐厅名称:</span>{{mealName}}</li>
+			<li><span class="highlight">用餐日期:</span>{{bDate}}</li>
+			<div id= "mealPic_{{index}}" class="scroll-pic mt15">
+				<ul class="pic-list">
+			  {{#if picGather}}
+			  {{#each picGather}}
+			  <li><img src="{{this}}" alt=""></li>
+			  {{/each}}
+			  {{/if}}
+				</ul>
+				<div class="contro-dot"><span class="current"></span><span></span><span></span></div>
+			</div>
+			<li><span class="highlight">餐名种类:</span>{{typeMode}}</li>
+			<li><span class="highlight">早中晚餐:</span>{{mealType}}</li>
+			<li><span class="highlight">联系方式:</span>{{contact}}</li>
+			{{#if remark}}<li><span class="highlight">餐厅介绍:</span>{{remark}}</li>{{/if}}
+			{{#if city}}<li><span class="highlight">所在城市:</span>{{city}}</li>{{/if}}
+			{{#if position }}<div><img src="{{position}}" alt=""></div>{{/if}}
+		</ul>
+		
+		
+
+	<!--就餐餐厅结束-->
+	</script>
+	<!--您的导游-->
+	<script id="page-f-tpl" type="text/x-tmpl">
+		<ul class="list mt15">
+		{{#if guidePhoto }}<li><div class="alignC"><img src="{{guidePhoto}}" alt=""></div></li>{{/if}}
+			<li><span class="highlight">导游名字:</span>{{guideName}}</li>
+			<li><span class="highlight">性　　别:</span>{{guideSex}}</li>
+			<li><span class="highlight">导游证号:</span>{{guideEscort}}</li>
+			<li><span class="highlight">联系电话:</span>{{guideMobile}}</li>
+			<li><span class="highlight">上团日期:</span>{{beginDate}}</li>
+			<li><span class="highlight">下团日期:</span>{{endDate}}</li>
+			<li>
+			<span class="highlight">导游个人简历:</span>
+			<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{guideProfile}}</div></li>
+		</ul>
+	<!--您的导游结束-->
+	</script>
+	
+	<!--您的行程-->
+	<script id="page-g-tpl" type="text/x-tmpl">
+		
+		<ul class="list">
+			<li class="mt15"><span class="highlight">第{{dayIndex}}天&nbsp;&nbsp;&nbsp;&nbsp;{{date.m}}月{{date.d}}日&nbsp;&nbsp;&nbsp;&nbsp;</span> {{date.h}}:{{date.t}}</li>
+			<li><span class="highlight">早　　餐:</span>{{breakFast}}</li>
+			<li><span class="highlight">中　　餐:</span>{{lunch}}</li>
+			<li><span class="highlight">晚　　餐:</span>{{supper}}</li>
+			<li><span class="highlight">交通工具:</span>{{traffic}}</li>
+			<li><span class="highlight">酒　　店:</span>{{hotel}}</li>
+			<li><span class="highlight">行程内容:</span>{{lineContent}}</li>
+			<li><span class="highlight">日程明细:</span>{{dayDetail}}</li>
+		</ul>
+	<!--您的行程结束-->
+	</script>
+	
+	<!--地接社-->
+	<script id="page-h-tpl" type="text/x-tmpl">
+		<div class="wraper">
+			<div  class="">
+				<div class="content-box ">
+					<div class="title service-title"><i class="icon"></i>为您服务的云南地接社</div>
+					<div class="content service">
+					  <ul class="list">
+						<li><span class="highlight">云南地接社：</span>{{TravelName}}</li>
+						<li><span class="highlight">计调值班电话：</span>{{TravelUser}}</li>
+						<li>
+						  <span class="highlight">旅行社介绍:</span>
+						  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{TravelBrief}}</div>
+						</li>
+					  </ul>
+					</div>
+				</div>
+				<div class="bottom-ft service-footer ">本平台由瑞丽航空提供技术支持</div>
+			</div>
+		</div>
+	<!--地接社结束-->
+	</script>
+	<!---------------------------------模板结束------------------------------->
+</body>
+</html>

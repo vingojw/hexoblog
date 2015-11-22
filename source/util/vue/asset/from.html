@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+     <script src="js/vue.js"></script>
+    <meta charset="UTF-8">
+    <title>vuejs 表单处理 | v-model指令 | Vue.js v0.12.7 </title>
+    <style>
+    body {
+        background-color: #fcfcfc;
+        padding: 40px 100px;
+    }
+    
+    .vue-example h2 {
+        padding: 0;
+        margin: 8px 0;
+    }
+    
+    .vue-example {
+        margin: 16px 0;
+        padding: 10px 20px;
+        background-color: #fff;
+        border-radius: 4px;
+        border: 1px solid hsl(130, 25%, 50%);
+        box-shadow: 2px 5px hsl(130, 25%, 50%) inset;
+    }
+    
+    .vue-example-result {}
+    h2{
+      border: 1px dashed rgb(202, 202, 202);
+      padding: 10px;
+    }
+    </style>
+</head>
+
+<body>
+配合 这三个网站看
+
+<a target="_blank" href="http://cn.vuejs.org/api/options.html#watch ">中文api</a> 
+<a target="_blank" href="http://vuejs.org/guide/">英文</a>
+<a target="_blank" href="https://gitter.im/yyx990803/vue">聊天室</a>
+
+    <h1>vuejs 表单处理 | v-model指令</h2>
+    <div id="demo">
+        <form action="#">
+            <div class="vue-example">
+                <h2>输入框处理</h2>
+                <input type="text" v-model="msg" lazy name="" >  <!--如果有lazy属性那么改变事件就是在change事件之后  源码 6265-->
+                <div class="vue-example-result">
+                    {{msg}}
+                </div>
+            </div>
+            <div class="vue-example">
+                <h2>复选框处理</h2>
+                <input type="checkbox" v-model="checked" lazy>
+                <div class="vue-example-result">
+                    {{checked?"yes":"no"}}
+                </div>
+            </div>
+            <div class="vue-example">
+                <h2>单选按钮处理</h2>
+                <input type="radio" name="picked" value="one" v-model="picked" lazy>
+                <input type="radio" name="picked" value="two" v-model="picked" lazy>
+                <div class="vue-example-result">
+                    {{picked=='one'&& 1}}
+                </div>
+            </div>
+            <div class="vue-example">
+                <h2>下拉框处理</h2>
+                <select v-model="selected" lazy name="" >
+                    <option value="one">one</option>
+                    <option value="two">two</option>
+                </select>
+                <div class="vue-example-result">
+                    {{selected}} 注意，单选的下拉框 option的value属性必须填写，不然不能通过vm获取到对于的data值
+                </div>
+            </div>
+
+            <div class="vue-example">
+                <h2>多选下拉框处理</h2>
+                <select v-model="multiSelected" lazy multiple name="" id="">
+                    <option value="">one</option>
+                    <option value="">two</option>
+                    <option value="">three</option>
+                </select>
+                <div class="vue-example-result">
+                    {{multiSelected}}
+                </div>
+            </div>
+
+              <div class="vue-example">
+                <h2>当作一个数来处理</h2>
+                <input v-model="age" number>
+                <div class="vue-example-result">
+                    {{age}}
+                </div>
+            </div>
+        </form>
+        <p>
+            <pre>data:{{$data | json 2}}</pre><!--两层 json-->
+        </p>
+        <p>
+            <input type="range" v-model="range" >
+        </p>
+        <div v-text="message"></div><!--这样可以避免 一出来 就看到 ｛｛xxx｝｝这样的文本
+        -->
+        <div id="person-{{id}}">Hello {{name}}!</div>
+        <div v-text="id"></div>
+         <div v-html="vhtml"></div>
+        {{{ safeHTMLString }}}
+        {{* onlyOnce }} 
+    </div>
+    <script>
+    //void function(){
+    var vm = new Vue({
+        el: "#demo",
+        data: {
+            msg: "hi",
+            checked: true,
+            picked: "one",
+            selected: "one",
+            multiSelected: ["one", "three"],
+            age:25,
+            aa :function(){},//这里如果是 方法 则不会到data中
+            bbb:1,
+            message:'message',
+            id:'id',
+            vhtml:'<span>vhtml</span>',
+            name:'name',
+            safeHTMLString:'<div>safeHTMLString</div>',
+            onlyOnce:'只会绑定一次'
+        }
+    });
+    //}();
+    </script>
+    <h2>可推导属性</h2>
+    <div id="tuidao" v-text="fullName" onlyget="{{onlyget}}"></div>
+    <script>
+    // 可推导属性
+    var demo = new Vue({
+      el:"#tuidao",
+      data: {
+        firstName: 'Foo',
+        lastName: 'Bar'
+      },
+      computed: {
+        fullName: {
+          // the getter should return the desired value
+          get: function () {
+            return this.firstName + ' ' + this.lastName
+          },
+          // the setter is optional
+          set: function (newValue) {
+            var names = newValue.split(' ')
+            this.firstName = names[0]
+            this.lastName = names[names.length - 1]
+          }
+        },
+        //只需要get
+        onlyget:function(){
+            return 'onlyget';
+        }
+      }
+    });
+    console.log(demo.fullName);
+    </script>
+
+
+    <h2>自定义指令</h2>
+    <div id="directive" v-my-directive="LightSlateGray:blabla"></div>
+    
+    <script>
+    //自定义指令  指令中所有属性应该都认为是只读的
+    Vue.directive('my-directive', {
+      bind: function () {
+        //仅调用一次，当指令第一次绑定元素的时候。
+        // do preparation work
+        // e.g. add event listeners or expensive stuff
+        // that needs to be run only once
+        this.el.style.color = "#fff";
+        this.el.style.backgroundColor = this.arg;
+        console.log('只调用一次');
+      },
+      update: function (newValue, oldValue) {
+        //第一次调用是在bind之后，用的是初始值；以后每当绑定的值发生变化就会被调用，新值与旧值作为参数。
+        // do something based on the updated value
+        // this will also be called for the initial value
+        console.log('newValue-->'+newValue);
+        console.log('oldValue-->'+oldValue);
+        //debugger;
+        this.el.innerHTML = 
+            'name - '       + this.name + '<br>' +
+            'raw - '        + this.raw + '<br>' +
+            'expression - ' + this.expression + '<br>' +
+            'argument - '   + this.arg + '<br>' +
+            'value - '      + newValue
+      },
+      unbind: function () {
+        console.log('unbind');
+        // do clean up work
+        // e.g. remove event listeners added in bind()
+      }
+    });
+    var demo = new Vue({
+      el: '#directive',
+      data: {
+        msgs: 'hello!',
+        blabla:'blabla'//这里对应的是 v-my-directive="#666:blabla"  中 : 后面的,貌似只能是一个参数
+      }
+    })
+    </script>
+    <h2>Multiple Clauses  多个字句（英文文档）</h2>
+    看控制台会调用两次，分别打印 while  和 hello
+    <div id="multiple" v-demo="color: 'white', text: 'hello!'"></div>
+    <script>
+    Vue.directive('demo', function (value) {
+        //会调用两次，分别打印 while  和 hello
+        console.log('多个字句'+value) // Object {color: 'white', text: 'hello!'}
+    });
+    var multiple1  = new Vue({
+        el:'#multiple'
+    });
+    </script>
+    <h2>直接指令</h2>
+    <div id="Odirective" v-literal-dir="直接指令"></div>
+    <script>
+    Vue.directive('literal-dir', {
+      isLiteral: true,
+      bind: function () {
+        this.el.innerHTML = this.expression;
+        console.log(this.expression) // 'foo'
+      }
+    });
+    var dd = new Vue({
+        el:'#Odirective'
+    });
+    </script>
+    <h2>双向指令，当在控制台 输入vmm.a.b.c = 1，的时候会自动更新内容</h2>
+    <div id="twoway">
+        <input v-example="a.b.c" />
+        <p>{{a.b.c}}</p>
+    </div>
+    <script>
+
+        Vue.directive('example', {
+            twoWay: true,
+            bind: function () {
+                this.handler = function () {
+                // set data back to the vm.
+                // If the directive is bound as v-example="a.b.c",
+                // this will attempt to set `vm.a.b.c` with the
+                // given value.
+              
+                this.set(this.el.value)
+                }.bind(this);
+
+                this.el.addEventListener('input', this.handler)
+            },
+            update:function(nvalue,ovalue){//双向数据绑定  使用 vmm.a.b.c = 123就能修改input的值
+                this.el.value = nvalue;
+            },
+            unbind: function () {
+                this.el.removeEventListener('input', this.handler)
+            }
+        });
+        var vmm = new Vue({el:'#twoway',data:{a:{b:{c:''}}}});
+    </script>
+    <h2>内联声明</h2>
+    <div id="inner-directive" v-my-inner-directive="a++"></div>
+    <script>
+    Vue.directive('my-inner-directive',{
+        acceptStatement:true,//接受声明  源码 :8777 行 中会把 'a++' 变成  
+        update:function(fn){
+            //debugger;
+            fn();//执行这个方法之后  vInner.a 就是 1
+            //debugger;
+        }
+    });
+    var vInner = new Vue({
+        el:'#inner-directive',
+        data:{
+            a:0
+        }
+    });
+
+    </script>
+    <h2>深度监视 (这个没弄明白) </h2>
+    从 <a href="https://gitter.im/yyx990803/vue">这里,搜索 deep:true</a>
+    来到了 <a href="http://vuejs.org/api/options.html#watch">这里</a>
+    貌似要跟 watch 配合一起用
+    <div id="dd" v-deep-directive>
+        {{obj.a}}<br/>
+        {{obj.b}}<br/>
+        {{obj.c.ca}}<br/>
+    </div>
+    <script>
+        Vue.directive('deep-directive', {
+          deep:true,
+          update: function (obj) {
+            // will be called when nested properties in `obj`
+            // changes.
+            debugger;
+          }
+        });
+        var vmDeep = new Vue({
+            el:'#dd',
+            data:{
+                obj:{a:1,b:2,c:{ca:1}}
+            }
+        });
+    </script>
+    <h2>Element Directives  元素指令(这个没弄明白,用了没效果)</h2>
+
+    <script>
+        Vue.elementDirective('elementDirect', {
+          // same API as normal directives
+          bind: function () {
+            debugger;
+            // manipulate this.el...
+            this.el.innerHTML = "元素指令元素指令元素指令元素指令";
+          }
+        });
+      
+    </script>
+    <div id="eleDirect">
+        <elementDirect></elementDirect>
+    </div>
+ 
+
+
+    <h2>自定义过滤器</h2>
+    <div id="cusFilter" v-text="message | wrap 'begin' 'end'"></div>
+    <script>
+    Vue.filter('wrap', function (value, begin, end) {
+      return begin + value + end
+    });
+    var customFilter = new Vue({
+        el:'#cusFilter',
+        data:{
+            message:'message'    
+        }
+        
+    });
+
+    </script>
+    <h2>双向过滤器, 邮箱检测</h2>
+    <div id="twoWayFilter">
+        // 原来要如此搭配  <div v-text="safeHTML"></div><a href="http://www.html-js.com/article/Vuejs-Chinese-entry-Vuejs-010---011-upgrade-Guide">参考地址</a>
+        
+        <input type="text" lazy v-model="emailstr | check-email"><span v-text="emaiState"></span>
+      
+    </div>
+    <script>
+        Vue.filter('check-email', {
+          // read is optional in this case, it's here
+          // just for demo purposes.
+          read: function (val) {
+            console.log(val);
+            return val
+          },
+          // this will be invoked before writing to
+          // the model.
+          write: function (val, oldVal) {
+            if(isEmail(val)){
+                this.$data.emaiState = '验证成功';    
+            } else {
+                this.$data.emaiState = '验证失败';  
+            }
+            return val;
+          }
+        });
+        function isEmail(val){
+            console.log('check-emailing')
+            if(val.match(/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/)){
+                return true
+            }
+            return false;
+        }
+        var twoWayFilter = new Vue({
+            el:'#twoWayFilter',
+            data:{
+                emailstr:'sdf',
+                emaiState:'',
+                safeHTML:' <input type="text" v-model="emailstr | check-email">'
+            }
+        })
+    </script>
+    <h2>过滤器上下文</h2>
+    <div id="vconcat">
+        如果是引用的0.11.4版本<span v-text="script"></span>
+        那么效果就是 <a href="http://jsfiddle.net/Hiufan/90o07xas/">这样</a><br/>
+        <input v-model="userInput"><br/>
+        <span>{{msg | concat userInput}}</span>
+    </div>
+    <script>
+    //参考地址：http://jsfiddle.net/Hiufan/90o07xas/
+        //两种写法都行
+        // Vue.filter('concat', function (value, key) {
+        //   // `this` points to the Vue instance invoking the filter
+        //   return value + this[key]
+        // });
+        
+        vConcat = new Vue({
+            el:'#vconcat',
+            data:{
+                msg:'你所输入的属性在实例中的值',
+                userInput:'userInput',
+                aaa:'aaa',
+                script:' http://cdn.bootcss.com/vue/0.11.4/vue.min.js '
+            },
+            filters : { //注意这里的写法是filters
+                'concat' : function (value, key) {
+                    // debugger;
+                    // value对应msg,key对应userInput,this指向这个实例的Vue
+                    // 然后你在input里面输入值的时候  
+                    // 比如 输入 aaa，那么这里就是  this['aaa'] 如果你输入其他的，就是 undefined
+                   return value + this[key] || '';
+                }
+            }
+        })
+    </script>
+
+    <h2>组件系统</h2>
+    <div id="vcomp">
+    <div v-component="my-component"></div>
+    </div>
+    <script>
+    // 扩展 Vue 得到一个可复用的构造函数
+    //debugger;
+    var MyComponent = Vue.extend({
+      template: 'A custom component!'
+    })
+    // 注意：该方法返回全局 Vue 对象，
+    // 而非注册的构造函数
+    // Vue.component('my-component', {
+    //   template: 'A custom component!'
+    // })
+    var ComponentWithDefaultData = Vue.extend({
+      data: function () {
+        return {
+          title: 'Hello!'
+        }
+      }
+    })
+    // 把构造函数注册到 my-component 这个 id
+    Vue.component('my-component', MyComponent);
+    //接着这里初始化
+    new Vue({el:'#vcomp'});
+    //不用在全局注册组建，你可以通过components option，把组建的范围限定起来
+    // var Parent = Vue.extend({
+    //   components: {
+    //     child: {
+    //       // child will only be available to Parent
+    //       // and Parent's descendent components
+    //     }
+    //   }
+    // })
+
+    </script>
+
+    <h2>通过 Props  传递数据</h2>
+    <p>
+        By default, components have isolated scope.
+         This means you cannot reference parent data in a child component’s template. In order to pass data to child components with isolated scope, we need to use props.
+        <br/>
+        默认的，组件都有独立的作用域，这意味着你无法在子组件的模板中引用父级的数据。为了能传递数据到子组件，需要使用props
+    </p>
+    <!--把上面的例子拿来修改一下-->
+    <div id="vcompprop">
+        <child msg="hello!"></child>
+    </div>
+    <script>
+    Vue.component('child', {
+      // declare the props
+      props: ['msg'],
+      // the prop can be used inside templates, and will also
+      // be set as `this.msg`
+      template: '<span>{{msg}}</span>'
+    });
+    new Vue({el:'#vcompprop'});
+    </script>
+    <h2>驼峰命名，与 “-” 分隔符命名</h2>
+    <p>因为html属性不区分大小写，所以当你准备给props使用驼峰命名的时候，那么在html属性里面需要变成用“-”（连字符号）做分隔符</p>
+    <div id="vCamelCase">
+        <!-- important: use hyphenated names! -->
+        <!-- 注意：这里要使用连字符号“-” -->
+        <!-- 顺便发现一个网站，专门介绍标点符号的用法 http://www.thepunctuationguide.com/hyphen.html-->
+        <childCamelCase my-message="hello!"></childCamelCase>
+    </div>
+    <script>
+    Vue.component('childCamelCase',{
+        props:['myMessage'],
+        template:'<span>{{myMessage}}</span>'
+    });
+    new Vue({el:'#vCamelCase'});
+    </script>
+
+    <h2>动态 Props</h2>
+    <p>我们还可以从父级传下 props</p>
+    <div id="parentMsg">
+        <input v-model="parentMsg">
+        <br>
+        <child msg="{{parentMsg}}"></child>
+    </div>
+    <script>
+        new Vue({
+            el:'#parentMsg',
+            data:{
+                parentMsg:'Inherited message'
+            },
+            components:{
+                child:{
+                    props:['msg'],
+                    //直接写 {{}}
+                    //template:'<span>{{msg}}</span>'
+                    //或者 写 字符实体，两种方式都行
+                    //template:'<span>{&#123;msg&#125;}</span>'
+                    //或者全部 字符实体
+                    template:'<span>&#123;&#123;msg&#125;&#125;</span>'
+                    //{&#123;msg&#125;}
+                }
+            }
+        })
+    </script>
+    <p>(没懂)
+       当然也可以暴露 $data 给 prop，<br/>
+       必须传递一个对象，它会替换组件默认的$data(貌似木有代码示例)
+    </p>
+    <h2>传递回调</h2>
+    <p>也可以传递一个方法，或者 回调函数的声明 给 子组件</p>
+    <div id="Passing-Callbacks-as-Props">
+        <parents></parents>    
+    </div>
+    <script>
+        Vue.component('parents',{
+            methods:{
+                onChildLoaded:function(msg){
+                    console.log(msg);
+                }
+            },
+            template:'<child on-load="{{onChildLoaded}}"></child>'
+        });
+        Vue.component('child',{
+            props:['onLoad'],
+            ready:function(){
+                this.onload('message from child!');
+            }
+        });
+    new Vue({
+        el:'#Passing-Callbacks-as-Props',
+    });
+    </script>
+</body>
+
+</html>

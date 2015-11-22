@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#vin{
+			cursor:pointer;
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+
+<p>js的方式实现 <span id = "vin"></span></p>
+<p><a href="http://linxz.github.io/CSS_Skills/demo/picture/star_rating.html#s3" target="_blank">css的方式实现 (linxz)</a></p>
+
+	<script>
+	function rating(rating){
+		return "★★★★★☆☆☆☆☆".slice(5 - rating, 10 - rating);
+	};
+	vin.addEventListener('mousemove',function(e){
+		e.target.innerHTML = rating(getNum(e));
+	},false);
+
+	vin.addEventListener('click',function(e){
+		alert(getNum(e));
+	},false);
+
+	function getNum(e){
+		var unit = e.target.offsetWidth / 5;
+		var num = Math.ceil(e.offsetX/unit);
+		return num;
+	}
+	vin.innerHTML = rating(0);
+	</script>
+</body>
+</html>
