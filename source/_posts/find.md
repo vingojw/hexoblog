@@ -73,6 +73,11 @@ Ce Frumoasa E Iubirea - Giulia
 Endless Story
 <script type="text/javascript" src="http://www.xiami.com/widget/player-single?uid=0&sid=371910&mode=js"></script>
 
+Human Legacy
+<script type="text/javascript" src="http://www.xiami.com/widget/player-single?uid=0&sid=1771684194&mode=js"></script>
+
+True Strength
+<script type="text/javascript" src="http://www.xiami.com/widget/player-single?uid=0&sid=1772020689&mode=js"></script>
 
 <a href="http://space.bilibili.com/2949989#!/index">电喵大战皮卡丘</a>
 <a href="http://www.bilibili.com/video/av958716/" target="_blank">【经典】仙剑奇侠传电视剧ost原声大碟-av958716</a>
