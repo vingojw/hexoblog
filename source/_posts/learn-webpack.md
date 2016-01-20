@@ -24,6 +24,8 @@ tags: webpack
 
 [Webpack 性能优化 （一）（使用别名做重定向）](http://www.ituring.com.cn/article/200534) [备份网址](http://code.oneapm.com/javascript/2015/07/07/webpack_performance_1/)
 
+[webpack使用优化](http://www.alloyteam.com/2016/01/webpack-use-optimization/)
+
 视频教程(需要翻墙)
 
 1. [https://www.youtube.com/watch?v=TaWKUpahFZM](https://www.youtube.com/watch?v=TaWKUpahFZM)
