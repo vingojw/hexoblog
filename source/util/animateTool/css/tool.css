@@ -27,7 +27,7 @@ a:hover{text-decoration:none;color:#f3711f}
 .mod_header{width:100%;height:60px;background:#20252b;border-bottom:2px solid #ff5f19;position:fixed;left:0;z-index:9}
 .mod_header .inner{position:relative;width:980px;min-height:60px;margin:0 auto}
 .mod_header h1{position:relative;float:left;height:60px;width:173px;text-indent:-9999px}
-.ico_logo{position:absolute;left:0;top:8px;width:117px;height:45px;background:url(img/logo.png) no-repeat 0 0}
+.ico_logo{position:absolute;left:0;top:8px;width:117px;height:45px;background:url(../images/logo.png) no-repeat 0 0}
 .mod_nav{height:60px;overflow:hidden;float:left;border-right:1px solid #474748}
 .mod_nav li{float:left;border-left:1px solid #474748}
 .mod_nav li a{display:block;height:60px;width:150px;border-left:1px solid #000;text-align:center;line-height:60px;font-size:14px;font-family:'\5FAE\8F6F\96C5\9ED1';color:#fff}
@@ -55,14 +55,14 @@ a:hover{text-decoration:none;color:#f3711f}
 .pop_dialog .inner p{padding:5px 10px 0 0}
 .pop_dialog .inner .big{position:relative;padding-left:80px}
 .pop_dialog .pop_close{position:absolute;right:-8px;top:-8px;width:15px;height:15px;overflow:hidden;background:#000;color:#fff;text-align:center;line-height:12px}
-.pop_dialog.downs .pop_close{top:0;right:15px;width:22px;height:22px;line-height:100px;background:url(img/close.png) no-repeat 0 0}
+.pop_dialog.downs .pop_close{top:0;right:15px;width:22px;height:22px;line-height:100px;background:url(../images/close.png) no-repeat 0 0}
 .pop_dialog .pop_close:hover{background-color:#EE4900}
-.icon_success,.icon_error{position:absolute;left:20px;top:3px;width:42px;height:42px;background:url(img/icon.png) no-repeat 0 0}
+.icon_success,.icon_error{position:absolute;left:20px;top:3px;width:42px;height:42px;background:url(../images/icon.png) no-repeat 0 0}
 .icon_error{background-position:0 -43px}
 .pop_dialog .inner .small{position:relative;padding-left:80px}
 .pop_dialog .inner .small .icon_success{top:-10px}
 .pop_mask{display:none;position:fixed;background:#000;top:0;filter:alpha(opacity=40);opacity:.4;width:100%;height:100%;z-index:10}
-.down{width:625px;height:237px;background:url(img/down.png) no-repeat 0 0;position:relative;margin:60px auto}
+.down{width:625px;height:237px;background:url(../images/down.png) no-repeat 0 0;position:relative;margin:60px auto}
 .down a{display:block;position:absolute;width:102px;height:156px;line-height:1000px;overflow:hidden;top:85px}
 .down .down_chrome{left:55px}
 .down .down_safari{left:260px}
@@ -114,7 +114,7 @@ label{display:inline-block;width:55px;text-align:right;padding-right:5px}
 .ease_list{padding-left:60px}
 .ease_list .button{margin-bottom:5px}
 .ease_list .checked,.butt:hover{background:#ec4800;color:#fff;text-shadow:none}
-#animation{position:absolute;left:50%;top:50%;margin:-150px 0 0 -150px;width:300px;height:300px;background:#fff url(img/ecd-logo.png) no-repeat 0 0;border:1px solid #fff;background-size:cover}
+#animation{position:absolute;left:50%;top:50%;margin:-150px 0 0 -150px;width:300px;height:300px;background:#fff url(../images/ecd-logo.png) no-repeat 0 0;border:1px solid #fff;background-size:cover}
 .origin{position:absolute;overflow:hidden;width:30px;height:30px;background:rgba(0,0,0,.41);border-radius:30px;left:135px;top:135px;cursor:move}
 .hidden{display:none}
 .show_code{line-height:20px;font-size:14px;color:#F60;padding:10px 10px 0;border-top:1px solid #3e3f41;max-height:300px;overflow-y:auto}

@@ -42,7 +42,7 @@ $(function(){
     }
   }
   if($.browser.msie){
-
+        
     var name=cookies.getCookie("chrome");
     if(!name){
         $("#mask").show();
