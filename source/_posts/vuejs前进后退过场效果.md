@@ -65,3 +65,11 @@ router.beforeEach(function(transition){
 
 
 ```
+以上就是 [demo1](https://github.com/vingojw/vue-vueRouter-webpack) 中转场的效果。
+
+但是感觉转场的时候中间总是白了一段时间，以为在转场时只能存在一个。
+
+后来看了 `家有萌虎` 的例子， 发现可以弄成类似原生的转场效果。
+见[demo2](https://github.com/vingojw/vue-transition)
+
+

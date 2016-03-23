@@ -39,6 +39,7 @@ tags: webpack
 
 建立一个 learn-webpack的文件夹
 
+这里用到了cnpm 淘宝 NPM 镜像
 cnpm install -g webpack
 
 
@@ -52,11 +53,12 @@ npm init 一路回车
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
-    "start": "webpack ./index.js bundle.js"  //这里表示   你可以在 控制台直接运行  npm start  就是运行此处的内容
+    "start": "webpack ./index.js bundle.js"
   },
   "author": "",
   "license": "ISC"
 }
+
 ```
 
 新建一个index.html
