@@ -1,13 +1,13 @@
 # Hexo Configuration
-## Docs: http://hexo.io/docs/configuration.html
+## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
 title: vingo
-subtitle: ''
+subtitle:
 description:
-author: vingojw
-language: zh-CN
+author: vingo
+language:
 timezone:
 
 # URL
@@ -25,10 +25,9 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render: 
+skip_render:
   - "util/**"
   - "demo/**"
-
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -43,7 +42,7 @@ future: true
 highlight:
   enable: true
   line_number: true
-  auto_detect: true
+  auto_detect: false
   tab_replace:
 
 # Category & Tag
@@ -67,11 +66,12 @@ pagination_dir: page
 disqus_shortname: vingojw
 
 # Extensions
-## Plugins: http://hexo.io/plugins/
-## Themes: http://hexo.io/themes/
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
 theme: landscape-plus
 
 # Deployment
+## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
   repo: git@github.com:vingojw/vingojw.github.com.git
