@@ -1,91 +1,60 @@
-针对中国大陆地区对hexo官方主题landscape进行优化，主题还在调整中，欢迎[open issue](https://github.com/xiangming/landscape-plus/issues/new)来提建议，参与讨论。
+# Landscape plus
 
-## 网站列表
+[![Join the chat at https://gitter.im/xiangming/landscape-plus](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/xiangming/landscape-plus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-如果你的网站正在使用**landscape-plus**主题，欢迎你将网站添加到wiki的[网站列表](https://github.com/xiangming/landscape-plus/wiki)。我会不定期将[网站列表](https://github.com/xiangming/landscape-plus/wiki)里面的网站添加到**landscape-plus**的默认友情链接。
+针对中国大陆的hexo用户，优化hexo官方主题landscape。支持hexo 3.x 和 hexo 2.x。[**演示**](http://jasonxiang.com/landscape-plus/)
 
-## 与Landscape不同的地方
+## 主题特色
 
-- 根据国情，**去掉Google的库**，改用cloudflare的cdn，打开页面不再卡住了。
-- 增加了 **语言包**，所以英语不好的同学，我懂你的。
-- 代码高亮，**采用Monokai**，熟悉SublimeText的朋友一定不陌生。
-- 主题默认包含 **feed和sitemap**，不需要你手动安装了。
-- 增加了 **友情链接** widget，已默认开启，可在landscape-plus/_config.yml中自行配置。
-- 不使用header里面的大图，节省带宽，页面加载更快。（大图文件还在，你可以很方便的恢复它。）
-- 修改了原主题的**配色**和部分markdown样式（blockquote/code...）
++ **主题配置项优化**，你可以将主题配置项放在站点的`_config.yml`中，避免主题更新造成的冲突。
++ **移除Google库**，改用cloudflare的CDN，加快页面显示速度。
++ **新增多语言支持**，支持英文、中文简体和中文繁体。
++ **新增友情链接模块**，已默认开启，修改方法看下面的[常见问题](#常见问题)。
++ **新增百度分享模块**，已默认开启。
++ **新增多说评论模块**，开启方法看下面的[常见问题](#常见问题)。
++ **新增mathjax模块**，即latex数学公式的支持，默认关闭。（感谢 @Svtter 的[pull request](https://github.com/xiangming/landscape-plus/pull/35)）
++ **新增IE8支持**。
++ **外观美化**，美化了部分外观样式。
++ **使用Monokai代码高亮配色**，最流行、最优雅的代码高亮配色方案。
 
-## 演示
+主题还在扩展中，欢迎各种**Pull Request**。
 
-你可以点击[这里](http://reqianduan.com/)，查看演示。
+## 文档目录
 
-## 安装主题
++ [安装](#install)
++ [启用](#enable)
++ [配置](#config)
++ [更新](#update)
++ [常见问题](#troubleshoots)
++ [更新日志](#logs)
++ [网站列表](#sites)
++ [贡献者们](#contribute)
 
-``` bash
-$ git clone https://github.com/xiangming/landscape-plus.git themes/landscape-plus
+## <a name='install'>安装</a>
+
+你可以选择要下载的**release**版本：https://github.com/xiangming/landscape-plus/releases
+
+或者直接使用最新版：（可能会存在bug，谨慎使用）
+
+```bash
+git clone https://github.com/xiangming/landscape-plus.git themes/landscape-plus
 ```
 
-## 启用主题
+## <a name='enable'>启用</a>
 
-修改主题的设置文件`_config.yml`，把`theme`的值设置为`landscape-plus`
-
-## 更新主题
-
-``` bash
-cd themes/landscape-plus
-git pull
+修改hexo的配置文件`_config.yml`，把`theme`的值设置为`landscape-plus`
+```yml
+# Extensions
+## Plugins: http://hexo.io/plugins/
+## Themes: http://hexo.io/themes/
+theme: landscape-plus
 ```
 
-## Q/A
-- **Q**：为什么之前不创建，现在又单独创建了新repo?
-- **A**：之前landscape+主题和demo放在一个repo，有的朋友不知道如何使用，所以现在单独创建一个。
-- **Q**：Demo看起来很赞，我要**怎么使用landscape+主题？**
-- **A**：按照上方的步骤进行安装/启用/更新。
-- **Q**：怎么提建议？
-- **A**：主题还在调整中，欢迎`open issue`来提建议，参与讨论。
-- **Q**：怎么添加友情链接？
-- **A**：可在themes/landscape-plus/_config.yml中自行配置。
-- **Q**：我喜欢原主题顶部的大图，如何恢复？
-- **A**：themes/landscape-plus/source/css/_partial/header.styl，取消第33行的注释。
-- **Q**：我是中国人，但是我喜欢英语？
-- **A**：这个其实和theme无关，配置你的hexo源文件的_config.yml，删掉`language: zh-CN`。
+## <a name='config'>配置</a>
 
-## TODO
-1. <del>使用多说替代disqus？</del>
-2. 使用国内社交网络，代替Facebook，twitter等？
-3. <del>去掉边栏，改为单栏？</del>
+主题的默认配置文件`landscape-plus\_config.yml`：
 
----
-
-# Landscape+
-
-Landscape+ is modified from the default theme of Hexo 2.4+ for the mainland of China.
-
-- [Preview](http://reqianduan.com/)
-
-## Installation
-
-### Install
-
-``` bash
-$ git clone https://github.com/xiangming/landscape-plus.git themes/landscape-plus
-```
-
-**Landscape+ requires Hexo 2.4 and above.**
-
-### Enable
-
-Modify `theme` setting in `_config.yml` to `landscape-plus`.
-
-### Update
-
-``` bash
-cd themes/landscape-plus
-git pull
-```
-
-## Configuration
-
-``` yml
+```yml
 # Header
 menu:
   Home: /
@@ -94,7 +63,8 @@ rss: /atom.xml
 
 # Content
 excerpt_link: Read More
-fancybox: true
+fancybox: false
+mathjax: false
 
 # Sidebar
 sidebar: right
@@ -102,70 +72,118 @@ widgets:
 - category
 - tag
 - tagcloud
-- archives
+- archive
 - recent_posts
 - links
+
+# Links
+links:
+  主题作者: http://xiguabaobao.com
+  热前端: http://reqianduan.com
 
 # Miscellaneous
 google_analytics:
 favicon: /favicon.png
 twitter:
 google_plus:
+fb_admins:
+fb_app_id:
+
+# Duoshuo
+duoshuo_shortname:
+
+# Baidu share
+baidushare: true
 ```
 
-- **menu** - Navigation menu
-- **rss** - RSS link
-- **excerpt_link** - "Read More" link at the bottom of excerpted articles. `false` to hide the link.
-- **fancybox** - Enable [Fancybox]
-- **sidebar** - Sidebar style. You can choose `left`, `right`, `bottom` or `false`.
-- **widgets** - Widgets displaying in sidebar
-- **google_analytics** - Google Analytics ID
-- **favicon** - Favicon path
-- **twitter** - Twiiter ID
-- **google_plus** - Google+ ID
++ `mathjax` - 是否开启latex数学公式
++ `links` - 友情链接
++ `duoshuo_shortname` - 多说评论id
++ `baidushare` - 是否开启百度分享
 
-## Features
+**建议！** `mathjax`、`links`、`duoshuo_shortname`、`baidushare`配置项也支持放在站点的`_config.yml`中，并且我们建议你这样做。
 
-### Fancybox
+## <a name='update'>更新</a>
 
-Landscape+ uses [Fancybox] to showcase your photos. You can use Markdown syntax or fancybox tag plugin to add your photos.
-
-```
-![img caption](img url)
-
-{% fancybox img_url [img_thumbnail] [img_caption] %}
+```bash
+cd themes/landscape-plus
+git pull
 ```
 
-### Sidebar
+**提示** 如果更新发生错误，你可以删除整个主题文件夹，然后重新执行[安装](#install)操作。
 
-You can put your sidebar in left side, right side or bottom of your site by editing `sidebar` setting.
+## <a name='troubleshoots'>常见问题</a>
 
-Landscape+ provides **6** built-in widgets:
+**问**：**怎么使用landscape plus主题？**
+> 按照上方的步骤进行`安装`、`启用`。
 
-- category
-- tag
-- tagcloud
-- archives
-- recent_posts
-- links
+**问**：如何开启多说评论模块？
+> 在站点的`_config.yml`中，增加`duoshuo_shortname: xxx`配置项，xxx是你的多说id。
 
-All of them are enabled by default. You can edit them in `widget` setting.
+**问**：如何关闭百度分享模块？
+> 删掉`themes/landscape-plus\_config.yml`中的`baidushare`配置项。
 
-## Development
+**问**：如何使用RSS分享功能？
+> 请参考这条[issue](https://github.com/xiangming/landscape-plus/issues/31)进行配置。
 
-### Requirements
+**问**：怎么添加友情链接？
+> 在站点的`_config.yml`中，增加`links:`配置项。
 
-- [Grunt] 0.4+
-- Hexo 2.4+
+**问**：怎么切换语言版本？
+> 在站点的配置文件`_config.yml`，修改`language:`配置项，zh-CN为中文简体，zh-TW为中文繁体，default为英文。
 
-### Grunt tasks
+**问**：我喜欢原主题顶部的大图，如何恢复？
+> `themes/landscape-plus/source/css/_partial/header.styl`，取消第33行的注释。
 
-- **default** - Download [Fancybox] and [Font Awesome].
-- **fontawesome** - Only download [Font Awesome].
-- **fancybox** - Only download [Fancybox].
-- **clean** - Clean temporarily files and downloaded files.
+**问**：Landscape plus主题的字体配色太闪眼睛了，我怎么换回原主题的样式？
+> 请参考这条[issue](https://github.com/xiangming/landscape-plus/issues/13)进行配置。
 
-[Hexo]: http://zespia.tw/hexo/
-[Fancybox]: http://fancyapps.com/fancybox/
-[Font Awesome]: http://fontawesome.io/
-[Grunt]: http://gruntjs.com/
+**问**：怎么提建议？
+> 主题还在调整中，欢迎[open issue](https://github.com/xiangming/landscape-plus/issues/new)来提建议，参与讨论。
+
+## <a name='logs'>更新日志</a>
+
+### v1.0.5
++ 主题配置项优化, refs #17
++ 百度分享样式调整，refs #45, refs #61
++ 更新主题说明README.md
+
+### v1.0.4
++ 增加返回顶部功能
++ 修改渲染方式，现在默认page布局下仅渲染 .md 文件格式，其他格式一律只做复制。（方便添加静态页面，原本需要在每个文件开头添加 **layout: false**）
++ 添加**mathjax**的模块开关,不需要的可以自己关闭。
+
+特别感谢来自 @myqianlan 的[pull request](https://github.com/xiangming/landscape-plus/pull/39) 和 @bearpaw 的[pull request](https://github.com/xiangming/landscape-plus/pull/53)。
+
+### v1.0.3
++ 增加对 **IE8** 的支持
++ 集成 **mathjax** ，即latex数学公式的支持。（感谢 @Svtter 的[pull request](https://github.com/xiangming/landscape-plus/pull/35)）
+
+### v1.0.2
++ 修改: 优化Generate速度，refs #13
+
+### v1.0.1
++ 新增: 百度分享模块
+
+### v1.0.0
++ 修改：根据国情，去掉Google的库，改用cloudflare的cdn
++ 新增：语言包
++ 修改：代码高亮配色修改为`Monokai`
++ 新增：友情链接
++ 修改：隐藏顶部大图
++ 修改：主题配色和部分markdown样式
++ 新增：多说评论模块
+
+## <a name='contribute'>贡献者们</a>
+
++ [xiangming](https://github.com/xiangming)
++ [myqianlan](https://github.com/myqianlan)
++ [HADB](https://github.com/HADB)
++ [Svtter](https://github.com/Svtter)
++ [bearpaw](https://github.com/bearpaw)
+
+主题还在扩展中，欢迎各种**Pull Request**。
+
+## <a name='sites'>网站列表</a>
+
+如果你的网站正在使用**landscape-plus**主题，你可以将网址添加到[wiki的网站列表](https://github.com/xiangming/landscape-plus/wiki)。

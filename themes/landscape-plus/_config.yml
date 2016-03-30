@@ -12,7 +12,7 @@ excerpt_link: Read More
 fancybox: true
 
 # Sidebar
-sidebar: true
+sidebar: right
 widgets:
 - category
 - tag
@@ -28,8 +28,7 @@ links:
   微读时光: http://www.wdtime.cn/
   蒹葭从风: http://iu2fish.github.io/
   CSS小工具（林小志）:  http://linxz.github.io/tianyizone/
-#多说账号
-duoshuo_shortname: vingojw 
+
 
 # Miscellaneous
 google_analytics:  
@@ -38,3 +37,9 @@ twitter: vingojw
 google_plus:  
 fb_admins:  
 fb_app_id:
+
+# Duoshuo
+duoshuo_shortname: vingojw
+
+# Baidu share
+baidushare: true

@@ -1,9 +1,9 @@
-<header id="header">
+﻿<header id="header">
   <div id="banner"></div>
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a style="display:none;" href="<%- config.root %>" id="logo"><%= config.title %></a>
+        <a style="display:none;" href="<%- url_for() %>" id="logo"><%= config.title %></a>
                        <style>
                         .hexagon {
                           width: 100px;
@@ -44,7 +44,7 @@
                           transform-origin: bottom;
                           transform: rotateX(-80deg) rotateY(-90deg);
                           transition: .4s all ease;
-						  -webkit-transform-origin: bottom;
+              -webkit-transform-origin: bottom;
                           -webkit-transform: rotateX(-80deg) rotateY(-90deg);
                           -webkit-transition: .4s all ease;
                         }
@@ -57,7 +57,7 @@
                           transform-origin: bottom;
                           transform: rotateX(80deg) rotateY(-90deg);
                           transition: .4s .1s all ease;
-						  -webkit-transform-origin: bottom;
+              -webkit-transform-origin: bottom;
                           -webkit-transform: rotateX(80deg) rotateY(-90deg);
                           -webkit-transition: .4s .1s all ease;
                         }
@@ -80,7 +80,7 @@
                           transform-origin: top;
                           transform: rotateX(-80deg) rotateY(-90deg);
                           transition:.4s .3s all ease;
-						  -webkit-transform-origin: top;
+              -webkit-transform-origin: top;
                           -webkit-transform: rotateX(-80deg) rotateY(-90deg);
                           -webkit-transition:.4s .3s all ease;
                         }
@@ -103,7 +103,7 @@
                           transform-origin: left;
                           transform: rotateX(0deg) rotateY(90deg);
                           transition:.4s .5s all ease;
-						  -webkit-transform-origin: left;
+              -webkit-transform-origin: left;
                           -webkit-transform: rotateX(0deg) rotateY(90deg);
                           -webkit-transition:.4s .5s all ease;
                         }
@@ -114,8 +114,8 @@
                         .hov:hover .t4,
                         .hov:hover .t5,
                         .hov:hover .t6{
-							transform: rotateX(0deg) rotateY(0deg);
-							-webkit-transform: rotateX(0deg) rotateY(0deg);
+              transform: rotateX(0deg) rotateY(0deg);
+              -webkit-transform: rotateX(0deg) rotateY(0deg);
                         }
                         .hexagon{
                           line-height: 58px;
@@ -156,7 +156,7 @@
       </h1>
       <% if (theme.subtitle){ %>
         <h2 id="subtitle-wrap">
-          <a href="<%- config.root %>" id="subtitle"><%= theme.subtitle %></a>
+          <a href="<%- url_for() %>" id="subtitle"><%= theme.subtitle %></a>
         </h2>
       <% } %>
     </div>
@@ -164,7 +164,7 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         <% for (var i in theme.menu){ %>
-          <a class="main-nav-link" href="<%- theme.menu[i] %>"><%= i %></a>
+          <a class="main-nav-link" href="<%- url_for(theme.menu[i]) %>"><%= i %></a>
         <% } %>
       </nav>
       <nav id="sub-nav">
