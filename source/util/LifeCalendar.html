@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>Life Calendar</title>
+    <script src="http://vuejs.org/js/vue.js"></script>
+    <style>
+      html,body{
+        margin:0;
+      }
+      .item{
+        height:7px;
+        width:7px;
+        background:#ddd;
+        display:inline-block;
+        margin:1px;
+      }
+      .live{
+        background-color: #42b983;
+      }
+      .retiring{
+        background-color:#b7b7b7;
+      }
+    </style>
+  </head>
+  <body>
+   <p><a target="_blank" href="http://open.163.com/movie/2016/3/Q/E/MBHQSM52F_MBI15O7QE.html">视频：你有拖延症吗？</a></p>
+    <input placeholder="你的生日:yyyy/mm/dd" type="text" v-model="birthDay">
+    <input placeholder="你想活到多少岁" @keyup="go" type="text" v-model="howLongWantToLive">
+    <p v-show="allWeeks">
+      <span class="item live"></span>活过
+      <span class="item retiring"></span>退休后（65岁退休）
+    </p>
+    <div class="item" v-for="i in allWeeks" :class="{live:i<liveWeeks,retiring:retiringWeeks<i}"></div>
+    <script>
+      new Vue({
+        el:'body',
+        data:{
+          birthDay:'',
+          howLongWantToLive:'',
+          retiringAge:'65',
+          liveWeeks:0,
+          allWeeks:0
+        },
+        methods:{
+          go:function(){  
+            if(this.birthDay=='' || this.howLongWantToLive==''){
+              return;
+            }            
+            var liveTime = new Date() - new Date(this.birthDay);
+            var liveDay = liveTime / 86400000;//(24*60*60*1000)
+            this.liveWeeks = liveDay/7;
+
+            var deadLine = this.addYear(this.howLongWantToLive); 
+            var deadLineDay = deadLine / 86400000;
+            this.allWeeks = deadLineDay/7;
+            
+            var retiringTime = this.addYear(this.retiringAge); 
+            var retiringDay = retiringTime/86400000;
+            this.retiringWeeks = retiringDay/7;
+          },
+          addYear(y){
+            var d = new Date(this.birthDay);
+            return d.setYear(d.getFullYear()+(+y));
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
