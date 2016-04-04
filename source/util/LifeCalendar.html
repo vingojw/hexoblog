@@ -59,7 +59,7 @@
             var retiringDay = retiringTime/86400000;
             this.retiringWeeks = retiringDay/7;
           },
-          addYear(y){
+          addYear:function(y){
             var d = new Date(this.birthDay);
             return d.setYear(d.getFullYear()+(+y));
           }
