@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		input{
+			margin: 20px 0;
+	    	font-size: 40px;
+	    	outline: none;
+		}
+	</style>
+</head>
+<body>
+<input placeholder="跟你说件事" type="text" id="ipt">
+	<canvas id="canvas"></canvas>
+	<script>
+		var cvs = document.getElementById('canvas');
+		var ctx = cvs.getContext("2d");
+		
+		var img = new Image();
+		img.src = "./test.png";
+		img.onload = function(){
+			setCanvas(this);
+		}
+		if(img.complete){
+			setCanvas(img);
+		}
+		function setCanvas(img){
+			cvs.height = img.height+40;
+			cvs.width = img.width;
+			ctx.drawImage(img,0,0);
+		}
+		ipt.onkeyup = function(){
+			ctx.clearRect(0, img.height, cvs.width, 40);
+			ctx.font = "40px 黑体";
+			ctx.textAlign='center';
+			ctx.fillText(this.value, cvs.width/2, img.height+35);
+		}
+	</script>
+</body>
+</html>
